@@ -333,6 +333,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 		break;
 	}
 
+
 	return fun_status;
 }
 
@@ -422,7 +423,7 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 			{
 				/*set TCNT VALUE, SET PRESCALER TO START*/
 				TCNT2 = Timer_Count;
-				CLEAR_MASK(TCCR2,TIMER2_PRESCALER_CLEAR_MASK);
+				//CLEAR_MASK(TCCR2,TIMER2_PRESCALER_CLEAR_MASK);
 				switch(genu_timer2prescaler)
 				{
 					case TIMER_NO_CLOCK:
@@ -466,7 +467,7 @@ ERROR_STATUS Timer_Stop(uint8_t Timer_CH_NO)
 	switch(Timer_CH_NO)
 	{
 		case TIMER_CH0:
-			//CLEAR_MASK(TCCR0,TIMER0_PRESCALER_CLEAR_MASK);			
+			CLEAR_MASK(TCCR0,TIMER0_PRESCALER_CLEAR_MASK);			
 		break;
 		case TIMER_CH1:
 			CLEAR_MASK(TCCR1,TIMER1_PRESCALER_CLEAR_MASK);

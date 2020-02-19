@@ -33,18 +33,25 @@ LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
+../Application/CarSm \
+../Application/Steering \
 ../HAL/Motor \
+../HAL/UltraSonic \
 ../MCAL \
 ../MCAL/DIO \
 ../MCAL/PWM \
 ../MCAL/Timers \
 ../HAL \
+../Application \
 ../SWICU/
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../Application/CarSm/car_sm.c \
+../Application/Steering/Steering.c \
 ../HAL/Motor/Motor.c \
+../HAL/UltraSonic/ultraSonic.c \
 ../main.c \
 ../MCAL/DIO/DIO.c \
 ../MCAL/PWM/PWM.c \
@@ -59,7 +66,10 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+Application/CarSm/car_sm.o \
+Application/Steering/Steering.o \
 HAL/Motor/Motor.o \
+HAL/UltraSonic/ultraSonic.o \
 main.o \
 MCAL/DIO/DIO.o \
 MCAL/PWM/PWM.o \
@@ -67,7 +77,10 @@ MCAL/Timers/Timers.o \
 SWICU/SWICU.o
 
 OBJS_AS_ARGS +=  \
+Application/CarSm/car_sm.o \
+Application/Steering/Steering.o \
 HAL/Motor/Motor.o \
+HAL/UltraSonic/ultraSonic.o \
 main.o \
 MCAL/DIO/DIO.o \
 MCAL/PWM/PWM.o \
@@ -75,7 +88,10 @@ MCAL/Timers/Timers.o \
 SWICU/SWICU.o
 
 C_DEPS +=  \
+Application/CarSm/car_sm.d \
+Application/Steering/Steering.d \
 HAL/Motor/Motor.d \
+HAL/UltraSonic/ultraSonic.d \
 main.d \
 MCAL/DIO/DIO.d \
 MCAL/PWM/PWM.d \
@@ -83,7 +99,10 @@ MCAL/Timers/Timers.d \
 SWICU/SWICU.d
 
 C_DEPS_AS_ARGS +=  \
+Application/CarSm/car_sm.d \
+Application/Steering/Steering.d \
 HAL/Motor/Motor.d \
+HAL/UltraSonic/ultraSonic.d \
 main.d \
 MCAL/DIO/DIO.d \
 MCAL/PWM/PWM.d \
@@ -104,7 +123,28 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+Application/CarSm/car_sm.o: ../Application/CarSm/car_sm.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Application/Steering/Steering.o: ../Application/Steering/Steering.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 HAL/Motor/Motor.o: ../HAL/Motor/Motor.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+HAL/UltraSonic/ultraSonic.o: ../HAL/UltraSonic/ultraSonic.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

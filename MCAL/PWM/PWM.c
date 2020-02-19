@@ -37,7 +37,7 @@
 #define TCR2UB_BIT						0
 #define FCPU							16000000UL  
 #define HUNDERED_PRESENT				100
-#define PRESCALER_8						8UL
+#define PRESCALER_256					256UL
 #define TIMER0_RESLUTION                255
 #define TIMER2_RESLUTION                255
 #define TIMER1_RESLUTION				65535
@@ -45,8 +45,8 @@
 #define OCR1A_BIT						0X20
 #define OCR1B_BIT						0X10
 
-#define MAX_FREQ						40000UL
-#define MIN_FREQ						31
+#define MAX_FREQ						625UL
+#define MIN_FREQ						245
 
 #define TIMER0_PRESCALER_CLEAR_MASK		0x07
 #define TIMER1_PRESCALER_CLEAR_MASK     0x0007
@@ -185,7 +185,7 @@ ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 				/*set pwm mod as phase correct with OCR1A as top value*/
 				TCCR1 |=T1_PWM_PC_ICR1_TOP;
 				TCCR1 |= (T1_OC1A_CLEAR|T1_OC1B_CLEAR);
-				gPWM_prescaler = T1_PRESCALER_8 ;
+				gPWM_prescaler = T1_PRESCALER_256 ;
 				/*set OCR1A AND OCR1B AS OUTPUT*/
 				PORTD_DIR |= (OCR1B_BIT|OCR1A_BIT);
 			break;
@@ -210,7 +210,7 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 	}
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_8)/Frequncy);
+	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
 	uint32_t duty_value	=  (((ticks*Duty)/HUNDERED_PRESENT));
 
 	switch(Channel)
@@ -250,7 +250,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 	}
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_8)/Frequncy);
+	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
 	uint32_t duty_value	=  (((ticks*Duty)/HUNDERED_PRESENT));
 
 	switch(Channel)

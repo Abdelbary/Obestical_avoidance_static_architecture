@@ -41,7 +41,7 @@
 #define EXTRF   1
 #define PORF    0
 
-#define SWICU_TIMER0_RESLUTION	256UL
+#define SWICU_TIMER2_RESLUTION	256UL
 
 #define TIMER0STOPFLAG  1
 #define TIMER0STARTFLAG 2
@@ -56,9 +56,9 @@ typedef enum En_externalInt_t{
 	EN_INT2
 }En_externalInt_t;
 
-volatile uint16_t gu16SwICU_timer0_Overflow_Counts = ZERO;
+volatile uint16_t gu16SwICU_timer2_Overflow_Counts = ZERO;
 volatile uint8_t  gu8SwICU_INT2_vec_enteranceFlag = ZERO;
-volatile uint8_t  gu8SwICU_Timer0_Stop_Flag = FALSE;
+volatile uint8_t  gu8SwICU_Timer2_Stop_Flag = FALSE;
 
 
 /*- LOCAL FUNCTIONS PROTOTYPES ----------------------------*/
@@ -79,12 +79,14 @@ ISR(INT2_vect)
 	*	EVEN VALUE start timer 0
 	*	ODD value stop timer 0
 	*/
-	PORTA_DATA ^= 0xff;
+	PORTA_DIR   = 0xff;
+	
+	Timer_Start(TIMER_CH2,ZERO);
 	if(gu8SwICU_INT2_vec_enteranceFlag&1)
 	{
 		SwICU_Stop();
 		gu8SwICU_INT2_vec_enteranceFlag = FALSE;
-		gu8SwICU_Timer0_Stop_Flag = TRUE;
+		gu8SwICU_Timer2_Stop_Flag = TRUE;
 		SwICU_SetCfgEdge(ICU_FALE_TO_RISE);
 	}
 	else
@@ -95,9 +97,9 @@ ISR(INT2_vect)
 	}
 }
 
-ISR(TIMER0_OVF_vect)
+ISR(TIMER2_OVF_vect)
 {
-	++gu16SwICU_timer0_Overflow_Counts;
+	++gu16SwICU_timer2_Overflow_Counts;
 }
 
 
@@ -213,14 +215,14 @@ void SwICU_SetCfgEdge(uint8_t inputCaptureEdgeedge){
 
 void SwICU_Stop(void){
 	/*stop timer */
-	Timer_Stop(ICU_TIMER_CH0);
+	Timer_Stop(TIMER_CH2);
 }
 
 
 void SwICU_Start(void)
 {
 	/*start timer*/
-	Timer_Start(ICU_TIMER_CH0,ZERO);
+	Timer_Start(TIMER_CH2,ZERO);
 }
 
 
@@ -244,11 +246,12 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 			*  2-initalize timer with interrupte mode
 			*  3-zero all used variables
 			*/
+			Timer_cfg_s timer_cfg;
+
 			external_Int_Enable(Icu_Cfg->ICU_Ch_No,ICU_FALE_TO_RISE);
 			switch(Icu_Cfg->ICU_Ch_Timer)
 			{
-				case TIMER_CH0:;
-						Timer_cfg_s timer_cfg;
+				case TIMER_CH0:
 						timer_cfg.Timer_CH_NO				    =	TIMER_CH0;
 						timer_cfg.Timer_Mode					=	TIMER_MODE;
 						timer_cfg.Timer_Polling_Or_Interrupt	=	TIMER_INTERRUPT_MODE;
@@ -258,17 +261,22 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 				case TIMER_CH1:
 				break;
 				case TIMER_CH2:
+						timer_cfg.Timer_CH_NO				    =	TIMER_CH2;
+						timer_cfg.Timer_Mode					=	TIMER_MODE;
+						timer_cfg.Timer_Polling_Or_Interrupt	=	TIMER_INTERRUPT_MODE;
+						timer_cfg.Timer_Prescaler				=   TIMER_PRESCALER_8;
+						Timer_Init(&timer_cfg);
 				break;
 			}
-			gu16SwICU_timer0_Overflow_Counts = ZERO;
+			gu16SwICU_timer2_Overflow_Counts = ZERO;
 			gu8SwICU_INT2_vec_enteranceFlag = ZERO;
-			gu8SwICU_Timer0_Stop_Flag = FALSE;
+			gu8SwICU_Timer2_Stop_Flag = FALSE;
 		}
 		return fun_status;
 }
 
 ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel,
-						 uint8_t Icu_EdgeToEdge, uint32_t * Icu_Time)
+						 uint8_t Icu_EdgeToEdge, uint64_t * Icu_Time)
 {
 	uint8_t fun_status = OK;
 	
@@ -286,12 +294,14 @@ ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel,
 	* zero the number of overflow
 	* reinitialize timer0 to reset it
 	*/
-	while(gu8SwICU_Timer0_Stop_Flag == FALSE);
+	while(gu8SwICU_Timer2_Stop_Flag == FALSE);
 	uint16_t timerRead ;
-	Timer_GetValue(ICU_TIMER_CH0,&timerRead);
-	*Icu_Time = (gu16SwICU_timer0_Overflow_Counts*(uint64_t)SWICU_TIMER0_RESLUTION)+timerRead;
-	gu16SwICU_timer0_Overflow_Counts = ZERO;
-	gu8SwICU_Timer0_Stop_Flag = FALSE;
+	Timer_GetValue(TIMER_CH2,&timerRead);
+	*Icu_Time = (gu16SwICU_timer2_Overflow_Counts*(uint64_t)SWICU_TIMER2_RESLUTION)+timerRead;
+	
+	gu16SwICU_timer2_Overflow_Counts = ZERO;
+	gu8SwICU_INT2_vec_enteranceFlag = ZERO;
+	gu8SwICU_Timer2_Stop_Flag = FALSE;
 	}
 	return fun_status;
 }

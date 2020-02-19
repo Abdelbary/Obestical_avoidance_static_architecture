@@ -184,10 +184,10 @@ ERROR_STATUS Motor_Stop(uint8_t Motor_Number)
 		switch(Motor_Number)
 		{
 			case MOTOR_1:
-				Pwm_Stop(pwm_cfg.Channel);
+			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
 			break;
 			case MOTOR_2:
-				Pwm_Stop(pwm_cfg.Channel);
+			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
 			break;
 			default:
 			fun_status = NOK;

@@ -77,7 +77,7 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg);
  *				  - E_NOK : not successful								   *
  * Description	: calculates the time between 2 edges				       *
  ***************************************************************************/
-ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel, uint8_t Icu_EdgeToEdge, uint32_t * Icu_Time);
+ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel, uint8_t Icu_EdgeToEdge, uint64_t * Icu_Time);
 
 
 #endif /* _ICU_H_ */

@@ -1,19 +1,41 @@
-main.d main.o: .././main.c .././MCAL/Timers/Timer.h \
- .././MCAL/Timers/../../std_types.h .././MCAL/Timers/../registers.h \
- .././MCAL/Timers/../../std_types.h \
- .././MCAL/Timers/../../common_macros.h \
- .././MCAL/Timers/../../std_types.h .././MCAL/DIO/DIO.h \
- .././MCAL/DIO/../../common_macros.h .././MCAL/DIO/../../std_types.h \
- .././MCAL/DIO/../registers.h .././MCAL/PWM/PWM.h \
- .././MCAL/PWM/../../common_macros.h .././MCAL/PWM/../../std_types.h \
- .././MCAL/PWM/../registers.h .././HAL/Motor/motor.h \
- .././HAL/Motor/../../common_macros.h .././HAL/Motor/../../std_types.h \
- .././HAL/Motor/MotorConfig.h .././HAL/Motor/../../MCAL/DIO/DIO.h \
- .././HAL/Motor/../../MCAL/PWM/PWM.h .././SWICU/SWICU.h \
- .././SWICU/../std_types.h .././SWICU/../common_macros.h \
- .././SWICU/../MCAL/Timers/Timer.h .././SWICU/../interrupt.h \
- .././SWICU/../MCAL/registers.h .././SWICU/../MCAL/DIO/DIO.h \
- .././SWICU/../MCAL/registers.h \
+main.d main.o: .././main.c .././Application/Steering/Steering.h \
+ .././Application/Steering/../../std_types.h \
+ .././Application/Steering/../../common_macros.h \
+ .././Application/Steering/../../std_types.h \
+ .././Application/Steering/../../HAL/Motor/Motor.h \
+ .././Application/Steering/../../HAL/Motor/../../common_macros.h \
+ .././Application/Steering/../../HAL/Motor/../../std_types.h \
+ .././Application/Steering/../../HAL/Motor/MotorConfig.h \
+ .././Application/Steering/../../HAL/Motor/../../MCAL/DIO/DIO.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
+ .././Application/Steering/../../HAL/Motor/../../MCAL/DIO/../registers.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
+ .././Application/Steering/../../HAL/Motor/../../MCAL/PWM/PWM.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
+ .././Application/Steering/../../HAL/Motor/../../MCAL/PWM/../registers.h \
+ .././Application/CarSm/car_sm.h \
+ .././Application/CarSm/../../common_macros.h \
+ .././Application/CarSm/../../std_types.h \
+ .././Application/CarSm/../Steering/Steering.h \
+ .././Application/CarSm/../../HAL/UltraSonic/ultraSonic.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../std_types.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../common_macros.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/SWICU.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../std_types.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../common_macros.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/Timers/Timer.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../interrupt.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/DIO/DIO.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h \
+ .././Application/CarSm/../../HAL/UltraSonic/ultraSonic_cfg.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../MCAL/registers.h \
+ .././Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
@@ -21,61 +43,81 @@ main.d main.o: .././main.c .././MCAL/Timers/Timer.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h
 
-.././MCAL/Timers/Timer.h:
+.././Application/Steering/Steering.h:
 
-.././MCAL/Timers/../../std_types.h:
+.././Application/Steering/../../std_types.h:
 
-.././MCAL/Timers/../registers.h:
+.././Application/Steering/../../common_macros.h:
 
-.././MCAL/Timers/../../std_types.h:
+.././Application/Steering/../../std_types.h:
 
-.././MCAL/Timers/../../common_macros.h:
+.././Application/Steering/../../HAL/Motor/Motor.h:
 
-.././MCAL/Timers/../../std_types.h:
+.././Application/Steering/../../HAL/Motor/../../common_macros.h:
 
-.././MCAL/DIO/DIO.h:
+.././Application/Steering/../../HAL/Motor/../../std_types.h:
 
-.././MCAL/DIO/../../common_macros.h:
+.././Application/Steering/../../HAL/Motor/MotorConfig.h:
 
-.././MCAL/DIO/../../std_types.h:
+.././Application/Steering/../../HAL/Motor/../../MCAL/DIO/DIO.h:
 
-.././MCAL/DIO/../registers.h:
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
 
-.././MCAL/PWM/PWM.h:
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
-.././MCAL/PWM/../../common_macros.h:
+.././Application/Steering/../../HAL/Motor/../../MCAL/DIO/../registers.h:
 
-.././MCAL/PWM/../../std_types.h:
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
-.././MCAL/PWM/../registers.h:
+.././Application/Steering/../../HAL/Motor/../../MCAL/PWM/PWM.h:
 
-.././HAL/Motor/motor.h:
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
 
-.././HAL/Motor/../../common_macros.h:
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
-.././HAL/Motor/../../std_types.h:
+.././Application/Steering/../../HAL/Motor/../../MCAL/PWM/../registers.h:
 
-.././HAL/Motor/MotorConfig.h:
+.././Application/CarSm/car_sm.h:
 
-.././HAL/Motor/../../MCAL/DIO/DIO.h:
+.././Application/CarSm/../../common_macros.h:
 
-.././HAL/Motor/../../MCAL/PWM/PWM.h:
+.././Application/CarSm/../../std_types.h:
 
-.././SWICU/SWICU.h:
+.././Application/CarSm/../Steering/Steering.h:
 
-.././SWICU/../std_types.h:
+.././Application/CarSm/../../HAL/UltraSonic/ultraSonic.h:
 
-.././SWICU/../common_macros.h:
+.././Application/CarSm/../../HAL/UltraSonic/../../std_types.h:
 
-.././SWICU/../MCAL/Timers/Timer.h:
+.././Application/CarSm/../../HAL/UltraSonic/../../common_macros.h:
 
-.././SWICU/../interrupt.h:
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/SWICU.h:
 
-.././SWICU/../MCAL/registers.h:
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../std_types.h:
 
-.././SWICU/../MCAL/DIO/DIO.h:
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../common_macros.h:
 
-.././SWICU/../MCAL/registers.h:
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/Timers/Timer.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
+
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../interrupt.h:
+
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h:
+
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/DIO/DIO.h:
+
+.././Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h:
+
+.././Application/CarSm/../../HAL/UltraSonic/ultraSonic_cfg.h:
+
+.././Application/CarSm/../../HAL/UltraSonic/../../MCAL/registers.h:
+
+.././Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
 

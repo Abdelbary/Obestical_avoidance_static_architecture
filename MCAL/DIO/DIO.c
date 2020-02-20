@@ -18,12 +18,12 @@
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
     /*check for errors*/
 	if((DIO_info->dir != OUTPUT && DIO_info->dir != INPUT) || 
 		DIO_info->GPIO > GPIOD)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*if input is ok proceed with fun process*/
 	else
@@ -75,21 +75,21 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 					}
 				break;
 				default:
-					fun_status = NOK;
+					u8_fun_status = NOK;
 				break;
 			}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	/*check for errors*/
 	if(GPIO > GPIOD || (value != HIGH && value !=LOW))
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*if input is ok proceed with fun process*/
 	else
@@ -141,21 +141,21 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 			}
 			break;
 			default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 
 ERROR_STATUS DIO_Read (uint8_t GPIO,uint8_t pins, uint8_t *data)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	/*check for errors*/
 	if(GPIO > GPIOD )
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*if input is ok proceed with fun process*/
 	switch(GPIO)
@@ -173,19 +173,19 @@ ERROR_STATUS DIO_Read (uint8_t GPIO,uint8_t pins, uint8_t *data)
 			*data = MASK_IS_SET(PORTD_DATA,pins);
 		break;
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS DIO_Toggle (uint8_t GPIO, uint8_t pins)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	/*check for errors*/
 	if(GPIO > GPIOD )
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*if input is ok proceed with fun process*/
 	switch(GPIO)
@@ -203,8 +203,8 @@ ERROR_STATUS DIO_Toggle (uint8_t GPIO, uint8_t pins)
 			TOGGLE_MASK(PORTD_DATA,pins);
 		break;
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
 }

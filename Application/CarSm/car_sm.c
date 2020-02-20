@@ -25,7 +25,7 @@ typedef enum En_distant_ranges_t{
 /*- LOCAL FUNCTIONS PROTOTYPES ----------------------------*/
 /*- GLOBAL STATIC VARIABLES -------------------------------*/
 
-static En_car_state_t car_state;
+static En_car_state_t genu_car_state;
 
 
 /*- GLOBAL EXTERN VARIABLES -------------------------------*/
@@ -66,19 +66,19 @@ ERROR_STATUS Car_SM_Update(void)
 		
 		if(distant >= distent_0 && distant <= distent_25)
 		{
-			car_state = state_move_backword;
+			genu_car_state = state_move_backword;
 		}
 		else if(distant >distent_25 && distant <= distent_30)
 		{
-			car_state = state_turn;
+			genu_car_state = state_turn;
 		}
 		else 
 		{
-			car_state = state_move_forward;		
+			genu_car_state = state_move_forward;		
 		}
 			
 		/*switch for state machine state to determine taken action*/	
-		switch(car_state)
+		switch(genu_car_state)
 		{
 			case state_move_backword:
 				Steering_SteerCar(CAR_BACKWARD,STEERING_SPEED);

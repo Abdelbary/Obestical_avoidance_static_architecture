@@ -74,13 +74,13 @@ static ERROR_STATUS validate_prescaler(uint8_t channel , uint8_t prescaler);
 static  ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg);
 /*- GLOBAL STATIC VARIABLES -------------------------------*/
 
-static uint8_t gPWM_prescaler;
+static uint8_t gu8_PWM_prescaler;
 /*- GLOBAL EXTERN VARIABLES -------------------------------*/
 /*- LOCAL FUNCTIONS IMPLEMENTATION ------------------------*/
 /*- APIs IMPLEMENTATION -----------------------------------*/
 static ERROR_STATUS validate_prescaler(uint8_t channel , uint8_t prescaler)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 		switch(channel)
 		{
 			case PWM_CH0:
@@ -97,7 +97,7 @@ static ERROR_STATUS validate_prescaler(uint8_t channel , uint8_t prescaler)
 				/*valid prescaler*/
 				break;
 				default:
-				fun_status = NOK;
+				u8_fun_status = NOK;
 				break;
 			}
 			break;
@@ -114,34 +114,34 @@ static ERROR_STATUS validate_prescaler(uint8_t channel , uint8_t prescaler)
 				/*valid input*/
 				break;
 				default:
-				fun_status = NOK;
+				u8_fun_status = NOK;
 				break;
 			}
 			break;
 		}
-	return fun_status;
+	return u8_fun_status;
 }
 static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Pwm_Cfg->Channel > PWM_CH2 || Pwm_Cfg == NULL)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	else
 	{
 	 validate_prescaler(Pwm_Cfg->Channel,Pwm_Cfg->Prescaler);
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 
 ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 {
 	/*validate input*/
-	uint8_t fun_status = validate_cnfg(Pwm_Cfg);
-	if(fun_status == OK)
+	uint8_t u8_fun_status = validate_cnfg(Pwm_Cfg);
+	if(u8_fun_status == OK)
 	{
 		/************************************************************************
 		* 1-clear all timer1 register
@@ -185,7 +185,7 @@ ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 				/*set pwm mod as phase correct with OCR1A as top value*/
 				TCCR1 |=T1_PWM_PC_ICR1_TOP;
 				TCCR1 |= (T1_OC1A_CLEAR|T1_OC1B_CLEAR);
-				gPWM_prescaler = T1_PRESCALER_256 ;
+				gu8_PWM_prescaler = T1_PRESCALER_256 ;
 				/*set OCR1A AND OCR1B AS OUTPUT*/
 				PORTD_DIR |= (OCR1B_BIT|OCR1A_BIT);
 			break;
@@ -193,7 +193,7 @@ ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
@@ -203,15 +203,17 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 	*	2-evaluate ticks TCNT value and OCR1A value
 	*	3-set prescaler to enable pwm                                                                      
 	7************************************************************************/
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
+	uint32_t u32_ticks;
+	uint32_t u32_duty_value;
 	if(Frequncy < MIN_FREQ || Frequncy > MAX_FREQ || Channel > PWM_CH2 )
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
-	uint32_t duty_value	=  (((ticks*Duty)/HUNDERED_PRESENT));
+	u32_ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
+	u32_duty_value	=  (((u32_ticks*Duty)/HUNDERED_PRESENT));
 
 	switch(Channel)
 	{
@@ -224,15 +226,15 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 		case PWM_CH1A_B:
 		/*set TCNT1 to zero and OCR1A */
 		TCNT1 = ZERO;
-		ICR1  = ticks;
-		OCR1A = duty_value;
-		OCR1B = duty_value;
+		ICR1  = u32_ticks;
+		OCR1A = u32_duty_value;
+		OCR1B = u32_duty_value;
 		break;
 		case PWM_CH2:
 		break;
 	} 
-	TCCR1 |= gPWM_prescaler;
-	return fun_status;
+	TCCR1 |= gu8_PWM_prescaler;
+	return u8_fun_status;
 }
 
 
@@ -244,14 +246,16 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 	*	3-set prescaler to enable pwm                                                                      
 	7************************************************************************/
 	uint8_t fun_status = OK;
+	uint32_t u32_ticks;
+	uint32_t u32_duty_value;
 	if(Frequncy < MIN_FREQ || Frequncy > MAX_FREQ || Channel > PWM_CH2 )
 	{
 		fun_status = NOK;
 	}
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
-	uint32_t duty_value	=  (((ticks*Duty)/HUNDERED_PRESENT));
+	u32_ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
+	u32_duty_value	=  (((u32_ticks*Duty)/HUNDERED_PRESENT));
 
 	switch(Channel)
 	{
@@ -264,9 +268,9 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 		case PWM_CH1A_B:
 		/*set TCNT1 to zero and OCR1A */
 		TCNT1 = ZERO;
-		ICR1  = ticks;
-		OCR1A = duty_value;
-		OCR1B = duty_value;
+		ICR1  = u32_ticks;
+		OCR1A = u32_duty_value;
+		OCR1B = u32_duty_value;
 		break;
 		case PWM_CH2:
 		break;
@@ -276,11 +280,11 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 
 ERROR_STATUS Pwm_Stop(uint8_t Channel)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Channel > PWM_CH2)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	else
 	{
@@ -302,9 +306,9 @@ ERROR_STATUS Pwm_Stop(uint8_t Channel)
 				CLEAR_MASK(TCCR2,TIMER2_PRESCALER_CLEAR_MASK);
 			break;
 			default:
-				fun_status = NOK;
+				u8_fun_status = NOK;
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }

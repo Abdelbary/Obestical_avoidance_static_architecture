@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 000001d0  00000000  00000000  0000139c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000022cc  00000000  00000000  0000156c  2**0
+  6 .debug_info   000023a9  00000000  00000000  0000156c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000f90  00000000  00000000  00003838  2**0
+  7 .debug_abbrev 00000f7f  00000000  00000000  00003915  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000017c5  00000000  00000000  000047c8  2**0
+  8 .debug_line   000017c5  00000000  00000000  00004894  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000424  00000000  00000000  00005f90  2**2
+  9 .debug_frame  00000424  00000000  00000000  0000605c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000d85  00000000  00000000  000063b4  2**0
+ 10 .debug_str    00000daf  00000000  00000000  00006480  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001e7e  00000000  00000000  00007139  2**0
+ 11 .debug_loc    00001f0d  00000000  00000000  0000722f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000160  00000000  00000000  00008fb7  2**0
+ 12 .debug_ranges 00000160  00000000  00000000  0000913c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -171,11 +171,11 @@ ERROR_STATUS Car_SM_Update(void)
       fc:	09 f0       	breq	.+2      	; 0x100 <Car_SM_Update+0x54>
       fe:	38 f4       	brcc	.+14     	; 0x10e <Car_SM_Update+0x62>
 		{
-			car_state = state_move_backword;
+			genu_car_state = state_move_backword;
      100:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <__data_end>
 			
 		/*switch for state machine state to determine taken action*/	
-		switch(car_state)
+		switch(genu_car_state)
 		{
 			case state_move_backword:
 				Steering_SteerCar(CAR_BACKWARD,STEERING_SPEED);
@@ -187,7 +187,7 @@ ERROR_STATUS Car_SM_Update(void)
 		
 		if(distant >= distent_0 && distant <= distent_25)
 		{
-			car_state = state_move_backword;
+			genu_car_state = state_move_backword;
 		}
 		else if(distant >distent_25 && distant <= distent_30)
      10e:	2d 2d       	mov	r18, r13
@@ -205,7 +205,7 @@ ERROR_STATUS Car_SM_Update(void)
      12a:	09 f0       	breq	.+2      	; 0x12e <Car_SM_Update+0x82>
      12c:	40 f4       	brcc	.+16     	; 0x13e <Car_SM_Update+0x92>
 		{
-			car_state = state_turn;
+			genu_car_state = state_turn;
      12e:	81 e0       	ldi	r24, 0x01	; 1
      130:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
 		{
@@ -220,11 +220,11 @@ ERROR_STATUS Car_SM_Update(void)
 			break;
      13c:	07 c0       	rjmp	.+14     	; 0x14c <Car_SM_Update+0xa0>
 		{
-			car_state = state_turn;
+			genu_car_state = state_turn;
 		}
 		else 
 		{
-			car_state = state_move_forward;		
+			genu_car_state = state_move_forward;		
      13e:	82 e0       	ldi	r24, 0x02	; 2
      140:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
 			break;
@@ -276,24 +276,24 @@ ERROR_STATUS Car_SM_Update(void)
 
 ERROR_STATUS Steering_Init(void)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	/*Motor 1 init*/
-	fun_status = Motor_Init(MOTOR_1);
+	u8_fun_status = Motor_Init(MOTOR_1);
      17c:	81 e0       	ldi	r24, 0x01	; 1
      17e:	0e 94 27 01 	call	0x24e	; 0x24e <Motor_Init>
-	fun_status = Motor_Direction(MOTOR_1,MOTOR_FORWARD);
+	u8_fun_status = Motor_Direction(MOTOR_1,MOTOR_FORWARD);
      182:	61 e0       	ldi	r22, 0x01	; 1
      184:	81 e0       	ldi	r24, 0x01	; 1
      186:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <Motor_Direction>
 	/*Motor 2 init*/
-	fun_status = Motor_Init(MOTOR_2);
+	u8_fun_status = Motor_Init(MOTOR_2);
      18a:	82 e0       	ldi	r24, 0x02	; 2
      18c:	0e 94 27 01 	call	0x24e	; 0x24e <Motor_Init>
-	fun_status = Motor_Direction(MOTOR_2,MOTOR_FORWARD);
+	u8_fun_status = Motor_Direction(MOTOR_2,MOTOR_FORWARD);
      190:	61 e0       	ldi	r22, 0x01	; 1
      192:	82 e0       	ldi	r24, 0x02	; 2
      194:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <Motor_Direction>
-	return fun_status;
+	return u8_fun_status;
 }
      198:	08 95       	ret
 
@@ -305,14 +305,14 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      19c:	df 93       	push	r29
      19e:	c8 2f       	mov	r28, r24
      1a0:	d6 2f       	mov	r29, r22
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	if(gu8_firstTime)
-     1a2:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+     1a2:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
      1a6:	88 23       	and	r24, r24
      1a8:	49 f0       	breq	.+18     	; 0x1bc <Steering_SteerCar+0x22>
 	{
 		gu8_firstTime = FALSE;
-     1aa:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
+     1aa:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__data_start>
 		/*if first time start two motors*/
 		Motor_Start(MOTOR_1,speed);
      1ae:	81 e0       	ldi	r24, 0x01	; 1
@@ -356,12 +356,12 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 			Motor_Stop(MOTOR_2);
      1ec:	82 e0       	ldi	r24, 0x02	; 2
      1ee:	0e 94 19 02 	call	0x432	; 0x432 <Motor_Stop>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      1f2:	81 e0       	ldi	r24, 0x01	; 1
 	switch(Steering_CarCmd)
 	{
@@ -379,12 +379,12 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      1fe:	61 e0       	ldi	r22, 0x01	; 1
      200:	82 e0       	ldi	r24, 0x02	; 2
      202:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <Motor_Direction>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      206:	81 e0       	ldi	r24, 0x01	; 1
 			Motor_Stop(MOTOR_2);
 		break;
@@ -402,12 +402,12 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      212:	62 e0       	ldi	r22, 0x02	; 2
      214:	82 e0       	ldi	r24, 0x02	; 2
      216:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <Motor_Direction>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      21a:	81 e0       	ldi	r24, 0x01	; 1
 			Motor_Direction(MOTOR_2,MOTOR_FORWARD);			
 		break;
@@ -425,12 +425,12 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      226:	61 e0       	ldi	r22, 0x01	; 1
      228:	82 e0       	ldi	r24, 0x02	; 2
      22a:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <Motor_Direction>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      22e:	81 e0       	ldi	r24, 0x01	; 1
 			Motor_Direction(MOTOR_2,MOTOR_BACKWARD);
 		break;
@@ -448,12 +448,12 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      23a:	62 e0       	ldi	r22, 0x02	; 2
      23c:	82 e0       	ldi	r24, 0x02	; 2
      23e:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <Motor_Direction>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      242:	81 e0       	ldi	r24, 0x01	; 1
 			Motor_Direction(MOTOR_2,MOTOR_FORWARD);
 		break;
@@ -463,12 +463,12 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 		break;
      244:	01 c0       	rjmp	.+2      	; 0x248 <Steering_SteerCar+0xae>
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
      246:	8f ef       	ldi	r24, 0xFF	; 255
 		break;
 	}
 	
-	return fun_status;
+	return u8_fun_status;
      248:	df 91       	pop	r29
      24a:	cf 91       	pop	r28
      24c:	08 95       	ret
@@ -483,14 +483,14 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      24e:	0f 93       	push	r16
      250:	1f 93       	push	r17
      252:	cf 93       	push	r28
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	
 
 	if(Motor_Number > MOTOR_2)
      254:	83 30       	cpi	r24, 0x03	; 3
      256:	c0 f5       	brcc	.+112    	; 0x2c8 <Motor_Init+0x7a>
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	else
 	{
@@ -502,85 +502,85 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      260:	1a c0       	rjmp	.+52     	; 0x296 <Motor_Init+0x48>
 		{
 			case MOTOR_1:
-				DIO_cfg.GPIO = MOTOR_EN_1_GPIO;
+				gstr_DIO_cfg.GPIO = MOTOR_EN_1_GPIO;
      262:	e7 e6       	ldi	r30, 0x67	; 103
      264:	f0 e0       	ldi	r31, 0x00	; 0
      266:	83 e0       	ldi	r24, 0x03	; 3
      268:	80 83       	st	Z, r24
-				DIO_cfg.dir  = OUTPUT;
+				gstr_DIO_cfg.dir  = OUTPUT;
      26a:	8f ef       	ldi	r24, 0xFF	; 255
      26c:	82 83       	std	Z+2, r24	; 0x02
-				DIO_cfg.pins = (MOTOR_OUT_1A_BIT | MOTOR_OUT_1B_BIT | MOTOR_EN_1_BIT);
+				gstr_DIO_cfg.pins = (MOTOR_OUT_1A_BIT | MOTOR_OUT_1B_BIT | MOTOR_EN_1_BIT);
      26e:	8c e1       	ldi	r24, 0x1C	; 28
      270:	81 83       	std	Z+1, r24	; 0x01
-				motor_1_init_status = TRUE;
+				gu8_motor_1_init_status = TRUE;
      272:	81 e0       	ldi	r24, 0x01	; 1
-     274:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <motor_1_init_status>
+     274:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <gu8_motor_1_init_status>
 
 
 
  ERROR_STATUS Motor_Init(uint8_t Motor_Number)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      278:	c1 e0       	ldi	r28, 0x01	; 1
 			case MOTOR_1:
-				DIO_cfg.GPIO = MOTOR_EN_1_GPIO;
-				DIO_cfg.dir  = OUTPUT;
-				DIO_cfg.pins = (MOTOR_OUT_1A_BIT | MOTOR_OUT_1B_BIT | MOTOR_EN_1_BIT);
-				motor_1_init_status = TRUE;
+				gstr_DIO_cfg.GPIO = MOTOR_EN_1_GPIO;
+				gstr_DIO_cfg.dir  = OUTPUT;
+				gstr_DIO_cfg.pins = (MOTOR_OUT_1A_BIT | MOTOR_OUT_1B_BIT | MOTOR_EN_1_BIT);
+				gu8_motor_1_init_status = TRUE;
 			break;
      27a:	0e c0       	rjmp	.+28     	; 0x298 <Motor_Init+0x4a>
 			case MOTOR_2:
-				DIO_cfg.GPIO = MOTOR_EN_2_GPIO;
+				gstr_DIO_cfg.GPIO = MOTOR_EN_2_GPIO;
      27c:	e7 e6       	ldi	r30, 0x67	; 103
      27e:	f0 e0       	ldi	r31, 0x00	; 0
      280:	83 e0       	ldi	r24, 0x03	; 3
      282:	80 83       	st	Z, r24
-				DIO_cfg.dir  = OUTPUT;
+				gstr_DIO_cfg.dir  = OUTPUT;
      284:	8f ef       	ldi	r24, 0xFF	; 255
      286:	82 83       	std	Z+2, r24	; 0x02
-				DIO_cfg.pins = (MOTOR_OUT_2B_BIT|MOTOR_OUT_2A_BIT|MOTOR_EN_2_BIT);
+				gstr_DIO_cfg.pins = (MOTOR_OUT_2B_BIT|MOTOR_OUT_2A_BIT|MOTOR_EN_2_BIT);
      288:	80 ee       	ldi	r24, 0xE0	; 224
      28a:	81 83       	std	Z+1, r24	; 0x01
-				motor_2_init_status = TRUE;
+				gu8_motor_2_init_status = TRUE;
      28c:	81 e0       	ldi	r24, 0x01	; 1
-     28e:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <motor_2_init_status>
+     28e:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <gu8_motor_2_init_status>
 
 
 
  ERROR_STATUS Motor_Init(uint8_t Motor_Number)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      292:	c1 e0       	ldi	r28, 0x01	; 1
 			case MOTOR_2:
-				DIO_cfg.GPIO = MOTOR_EN_2_GPIO;
-				DIO_cfg.dir  = OUTPUT;
-				DIO_cfg.pins = (MOTOR_OUT_2B_BIT|MOTOR_OUT_2A_BIT|MOTOR_EN_2_BIT);
-				motor_2_init_status = TRUE;
+				gstr_DIO_cfg.GPIO = MOTOR_EN_2_GPIO;
+				gstr_DIO_cfg.dir  = OUTPUT;
+				gstr_DIO_cfg.pins = (MOTOR_OUT_2B_BIT|MOTOR_OUT_2A_BIT|MOTOR_EN_2_BIT);
+				gu8_motor_2_init_status = TRUE;
 			break;
      294:	01 c0       	rjmp	.+2      	; 0x298 <Motor_Init+0x4a>
 			default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
      296:	cf ef       	ldi	r28, 0xFF	; 255
 			break;
 		}
-			pwm_cfg.Channel = PWM_CH1A_B;
+			gstr_pwm_cfg.Channel = PWM_CH1A_B;
      298:	05 e6       	ldi	r16, 0x65	; 101
      29a:	10 e0       	ldi	r17, 0x00	; 0
      29c:	83 e0       	ldi	r24, 0x03	; 3
      29e:	f8 01       	movw	r30, r16
      2a0:	80 83       	st	Z, r24
-			pwm_cfg.Prescaler = PWM_PRESCALER_8;
+			gstr_pwm_cfg.Prescaler = PWM_PRESCALER_8;
      2a2:	81 e0       	ldi	r24, 0x01	; 1
      2a4:	81 83       	std	Z+1, r24	; 0x01
-			Pwm_Init(&pwm_cfg);
+			Pwm_Init(&gstr_pwm_cfg);
      2a6:	c8 01       	movw	r24, r16
      2a8:	0e 94 95 03 	call	0x72a	; 0x72a <Pwm_Init>
-			DIO_init(&DIO_cfg);
+			DIO_init(&gstr_DIO_cfg);
      2ac:	87 e6       	ldi	r24, 0x67	; 103
      2ae:	90 e0       	ldi	r25, 0x00	; 0
      2b0:	0e 94 c6 02 	call	0x58c	; 0x58c <DIO_init>
-			Pwm_Start(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Start(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
      2b4:	22 e3       	ldi	r18, 0x32	; 50
      2b6:	30 e0       	ldi	r19, 0x00	; 0
      2b8:	40 e0       	ldi	r20, 0x00	; 0
@@ -590,18 +590,18 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
      2c0:	80 81       	ld	r24, Z
      2c2:	0e 94 dc 03 	call	0x7b8	; 0x7b8 <Pwm_Start>
      2c6:	01 c0       	rjmp	.+2      	; 0x2ca <Motor_Init+0x7c>
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	
 
 	if(Motor_Number > MOTOR_2)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      2c8:	cf ef       	ldi	r28, 0xFF	; 255
-			Pwm_Init(&pwm_cfg);
-			DIO_init(&DIO_cfg);
-			Pwm_Start(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Init(&gstr_pwm_cfg);
+			DIO_init(&gstr_DIO_cfg);
+			Pwm_Start(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      2ca:	8c 2f       	mov	r24, r28
      2cc:	cf 91       	pop	r28
@@ -613,7 +613,7 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	if(Motor_Number > MOTOR_2 ||  Motor_Direction > MOTOR_BACKWARD)
      2d4:	83 30       	cpi	r24, 0x03	; 3
      2d6:	08 f0       	brcs	.+2      	; 0x2da <Motor_Direction+0x6>
@@ -622,7 +622,7 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      2dc:	08 f0       	brcs	.+2      	; 0x2e0 <Motor_Direction+0xc>
      2de:	5b c0       	rjmp	.+182    	; 0x396 <Motor_Direction+0xc2>
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	else
 	{
@@ -653,12 +653,12 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      302:	68 e0       	ldi	r22, 0x08	; 8
      304:	83 e0       	ldi	r24, 0x03	; 3
      306:	0e 94 37 03 	call	0x66e	; 0x66e <DIO_Write>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      30a:	81 e0       	ldi	r24, 0x01	; 1
 				switch(Motor_Direction)
 				{
@@ -678,12 +678,12 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      31a:	68 e0       	ldi	r22, 0x08	; 8
      31c:	83 e0       	ldi	r24, 0x03	; 3
      31e:	0e 94 37 03 	call	0x66e	; 0x66e <DIO_Write>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      322:	81 e0       	ldi	r24, 0x01	; 1
 					DIO_Write(MOTOR_OUT_1B_GPIO,MOTOR_OUT_1B_BIT,LOW);
 					break;
@@ -703,12 +703,12 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      332:	68 e0       	ldi	r22, 0x08	; 8
      334:	83 e0       	ldi	r24, 0x03	; 3
      336:	0e 94 37 03 	call	0x66e	; 0x66e <DIO_Write>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      33a:	81 e0       	ldi	r24, 0x01	; 1
 					DIO_Write(MOTOR_OUT_1B_GPIO,MOTOR_OUT_1B_BIT,HIGH);
 					break;
@@ -717,7 +717,7 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 					DIO_Write(MOTOR_OUT_1B_GPIO,MOTOR_OUT_1B_BIT,LOW);
 					break;
      33c:	08 95       	ret
-						fun_status = NOK;
+						u8_fun_status = NOK;
 					break;
 				}	
 			break;
@@ -741,12 +741,12 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      356:	60 e8       	ldi	r22, 0x80	; 128
      358:	83 e0       	ldi	r24, 0x03	; 3
      35a:	0e 94 37 03 	call	0x66e	; 0x66e <DIO_Write>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      35e:	81 e0       	ldi	r24, 0x01	; 1
 				switch(Motor_Direction)
 				{
@@ -766,12 +766,12 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      36e:	60 e8       	ldi	r22, 0x80	; 128
      370:	83 e0       	ldi	r24, 0x03	; 3
      372:	0e 94 37 03 	call	0x66e	; 0x66e <DIO_Write>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      376:	81 e0       	ldi	r24, 0x01	; 1
 					DIO_Write(MOTOR_OUT_2B_GPIO,MOTOR_OUT_2B_BIT,LOW);
 					break;
@@ -791,12 +791,12 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      386:	60 e8       	ldi	r22, 0x80	; 128
      388:	83 e0       	ldi	r24, 0x03	; 3
      38a:	0e 94 37 03 	call	0x66e	; 0x66e <DIO_Write>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      38e:	81 e0       	ldi	r24, 0x01	; 1
 					DIO_Write(MOTOR_OUT_2B_GPIO,MOTOR_OUT_2B_BIT,HIGH);
 					break;
@@ -807,20 +807,20 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
      390:	08 95       	ret
 ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	if(Motor_Number > MOTOR_2 ||  Motor_Direction > MOTOR_BACKWARD)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      392:	8f ef       	ldi	r24, 0xFF	; 255
      394:	08 95       	ret
      396:	8f ef       	ldi	r24, 0xFF	; 255
      398:	08 95       	ret
-					fun_status = NOK;
+					u8_fun_status = NOK;
 					break;
 				}
 			break;
 			default:
-				fun_status = NOK;
+				u8_fun_status = NOK;
      39a:	8f ef       	ldi	r24, 0xFF	; 255
      39c:	08 95       	ret
 					case MOTOR_STOP:
@@ -828,7 +828,7 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 					DIO_Write(MOTOR_OUT_1B_GPIO,MOTOR_OUT_1B_BIT,LOW);
 					break;
 					default:
-						fun_status = NOK;
+						u8_fun_status = NOK;
      39e:	8f ef       	ldi	r24, 0xFF	; 255
      3a0:	08 95       	ret
 					case MOTOR_STOP:
@@ -836,13 +836,13 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 					DIO_Write(MOTOR_OUT_2B_GPIO,MOTOR_OUT_2B_BIT,LOW);
 					break;
 					default:
-					fun_status = NOK;
+					u8_fun_status = NOK;
      3a2:	8f ef       	ldi	r24, 0xFF	; 255
-				fun_status = NOK;
+				u8_fun_status = NOK;
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      3a4:	08 95       	ret
 
@@ -850,7 +850,7 @@ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
 
 ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	
 	if(Motor_Number > MOTOR_2 || Mot_Speed > 100)
      3a6:	83 30       	cpi	r24, 0x03	; 3
@@ -858,7 +858,7 @@ ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
      3aa:	65 36       	cpi	r22, 0x65	; 101
      3ac:	d8 f4       	brcc	.+54     	; 0x3e4 <Motor_Start+0x3e>
 	{	
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	else
 	{
@@ -870,70 +870,70 @@ ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
      3b6:	18 c0       	rjmp	.+48     	; 0x3e8 <Motor_Start+0x42>
 		{
 			case MOTOR_1:
-				Pwm_Start(pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
+				Pwm_Start(gstr_pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
      3b8:	22 e3       	ldi	r18, 0x32	; 50
      3ba:	30 e0       	ldi	r19, 0x00	; 0
      3bc:	40 e0       	ldi	r20, 0x00	; 0
      3be:	50 e0       	ldi	r21, 0x00	; 0
-     3c0:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <pwm_cfg>
+     3c0:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <gstr_pwm_cfg>
      3c4:	0e 94 dc 03 	call	0x7b8	; 0x7b8 <Pwm_Start>
 }
 
 
 ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      3c8:	81 e0       	ldi	r24, 0x01	; 1
 	{
 		switch(Motor_Number)
 		{
 			case MOTOR_1:
-				Pwm_Start(pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
+				Pwm_Start(gstr_pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
 			break;
      3ca:	08 95       	ret
 			case MOTOR_2:
-				Pwm_Start(pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
+				Pwm_Start(gstr_pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
      3cc:	22 e3       	ldi	r18, 0x32	; 50
      3ce:	30 e0       	ldi	r19, 0x00	; 0
      3d0:	40 e0       	ldi	r20, 0x00	; 0
      3d2:	50 e0       	ldi	r21, 0x00	; 0
-     3d4:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <pwm_cfg>
+     3d4:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <gstr_pwm_cfg>
      3d8:	0e 94 dc 03 	call	0x7b8	; 0x7b8 <Pwm_Start>
 }
 
 
 ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      3dc:	81 e0       	ldi	r24, 0x01	; 1
 			case MOTOR_1:
-				Pwm_Start(pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
+				Pwm_Start(gstr_pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
 			break;
 			case MOTOR_2:
-				Pwm_Start(pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
+				Pwm_Start(gstr_pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
 			break;
      3de:	08 95       	ret
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	
 	if(Motor_Number > MOTOR_2 || Mot_Speed > 100)
 	{	
-		fun_status = NOK;
+		u8_fun_status = NOK;
      3e0:	8f ef       	ldi	r24, 0xFF	; 255
      3e2:	08 95       	ret
      3e4:	8f ef       	ldi	r24, 0xFF	; 255
      3e6:	08 95       	ret
 			break;
 			case MOTOR_2:
-				Pwm_Start(pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
+				Pwm_Start(gstr_pwm_cfg.Channel,Mot_Speed,MOTOR_FREQ);
 			break;
 			default:
-				fun_status = NOK;
+				u8_fun_status = NOK;
      3e8:	8f ef       	ldi	r24, 0xFF	; 255
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      3ea:	08 95       	ret
 
@@ -941,7 +941,7 @@ ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
 
 ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Motor_Number > MOTOR_2 || Speed > 100)
      3ec:	83 30       	cpi	r24, 0x03	; 3
@@ -949,7 +949,7 @@ ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
      3f0:	65 36       	cpi	r22, 0x65	; 101
      3f2:	d8 f4       	brcc	.+54     	; 0x42a <__LOCK_REGION_LENGTH__+0x2a>
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	else
 	{
@@ -961,70 +961,70 @@ ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
      3fc:	18 c0       	rjmp	.+48     	; 0x42e <__LOCK_REGION_LENGTH__+0x2e>
 		{
 			case MOTOR_1:
-			Pwm_Update(pwm_cfg.Channel,Speed,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,Speed,MOTOR_FREQ);
      3fe:	22 e3       	ldi	r18, 0x32	; 50
      400:	30 e0       	ldi	r19, 0x00	; 0
      402:	40 e0       	ldi	r20, 0x00	; 0
      404:	50 e0       	ldi	r21, 0x00	; 0
-     406:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <pwm_cfg>
+     406:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <gstr_pwm_cfg>
      40a:	0e 94 25 04 	call	0x84a	; 0x84a <Pwm_Update>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      40e:	81 e0       	ldi	r24, 0x01	; 1
 	{
 		switch(Motor_Number)
 		{
 			case MOTOR_1:
-			Pwm_Update(pwm_cfg.Channel,Speed,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,Speed,MOTOR_FREQ);
 			break;
      410:	08 95       	ret
 			case MOTOR_2:
-			Pwm_Update(pwm_cfg.Channel,Speed,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,Speed,MOTOR_FREQ);
      412:	22 e3       	ldi	r18, 0x32	; 50
      414:	30 e0       	ldi	r19, 0x00	; 0
      416:	40 e0       	ldi	r20, 0x00	; 0
      418:	50 e0       	ldi	r21, 0x00	; 0
-     41a:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <pwm_cfg>
+     41a:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <gstr_pwm_cfg>
      41e:	0e 94 25 04 	call	0x84a	; 0x84a <Pwm_Update>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      422:	81 e0       	ldi	r24, 0x01	; 1
 			case MOTOR_1:
-			Pwm_Update(pwm_cfg.Channel,Speed,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,Speed,MOTOR_FREQ);
 			break;
 			case MOTOR_2:
-			Pwm_Update(pwm_cfg.Channel,Speed,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,Speed,MOTOR_FREQ);
 			break;
      424:	08 95       	ret
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Motor_Number > MOTOR_2 || Speed > 100)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      426:	8f ef       	ldi	r24, 0xFF	; 255
      428:	08 95       	ret
      42a:	8f ef       	ldi	r24, 0xFF	; 255
      42c:	08 95       	ret
 			break;
 			case MOTOR_2:
-			Pwm_Update(pwm_cfg.Channel,Speed,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,Speed,MOTOR_FREQ);
 			break;
 			default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
      42e:	8f ef       	ldi	r24, 0xFF	; 255
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      430:	08 95       	ret
 
@@ -1032,13 +1032,13 @@ ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
 
 ERROR_STATUS Motor_Stop(uint8_t Motor_Number)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Motor_Number > MOTOR_2)
      432:	83 30       	cpi	r24, 0x03	; 3
      434:	d8 f4       	brcc	.+54     	; 0x46c <Motor_Stop+0x3a>
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	else
 	{
@@ -1050,78 +1050,78 @@ ERROR_STATUS Motor_Stop(uint8_t Motor_Number)
      43e:	18 c0       	rjmp	.+48     	; 0x470 <Motor_Stop+0x3e>
 		{
 			case MOTOR_1:
-			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
      440:	22 e3       	ldi	r18, 0x32	; 50
      442:	30 e0       	ldi	r19, 0x00	; 0
      444:	40 e0       	ldi	r20, 0x00	; 0
      446:	50 e0       	ldi	r21, 0x00	; 0
      448:	60 e0       	ldi	r22, 0x00	; 0
-     44a:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <pwm_cfg>
+     44a:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <gstr_pwm_cfg>
      44e:	0e 94 25 04 	call	0x84a	; 0x84a <Pwm_Update>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Stop(uint8_t Motor_Number)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      452:	81 e0       	ldi	r24, 0x01	; 1
 	{
 		switch(Motor_Number)
 		{
 			case MOTOR_1:
-			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
 			break;
      454:	08 95       	ret
 			case MOTOR_2:
-			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
      456:	22 e3       	ldi	r18, 0x32	; 50
      458:	30 e0       	ldi	r19, 0x00	; 0
      45a:	40 e0       	ldi	r20, 0x00	; 0
      45c:	50 e0       	ldi	r21, 0x00	; 0
      45e:	60 e0       	ldi	r22, 0x00	; 0
-     460:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <pwm_cfg>
+     460:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <gstr_pwm_cfg>
      464:	0e 94 25 04 	call	0x84a	; 0x84a <Pwm_Update>
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Motor_Stop(uint8_t Motor_Number)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      468:	81 e0       	ldi	r24, 0x01	; 1
 			case MOTOR_1:
-			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
 			break;
 			case MOTOR_2:
-			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
 			break;
      46a:	08 95       	ret
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Motor_Number > MOTOR_2)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      46c:	8f ef       	ldi	r24, 0xFF	; 255
      46e:	08 95       	ret
 			break;
 			case MOTOR_2:
-			Pwm_Update(pwm_cfg.Channel,ZERO,MOTOR_FREQ);
+			Pwm_Update(gstr_pwm_cfg.Channel,ZERO,MOTOR_FREQ);
 			break;
 			default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
      470:	8f ef       	ldi	r24, 0xFF	; 255
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      472:	08 95       	ret
 
 00000474 <Us_Init>:
-#define SHIFT_TO_UPPER_NIBBLE					4
 #define	SHIFT_DIVIDE_BY_2						1
 #define TICKS_FOR_ONE_ULTRA_SONIC_MICRO_SEC		58.0
 #define TEN_DELAY								10
+
 ERROR_STATUS Us_Init(void)
 {
      474:	1f 93       	push	r17
@@ -1317,7 +1317,7 @@ int main(void)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
     /*check for errors*/
 	if((DIO_info->dir != OUTPUT && DIO_info->dir != INPUT) || 
      58c:	fc 01       	movw	r30, r24
@@ -1332,13 +1332,13 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
     /*check for errors*/
 	if((DIO_info->dir != OUTPUT && DIO_info->dir != INPUT) || 
      59c:	34 30       	cpi	r19, 0x04	; 4
      59e:	08 f0       	brcs	.+2      	; 0x5a2 <DIO_init+0x16>
      5a0:	5a c0       	rjmp	.+180    	; 0x656 <DIO_init+0xca>
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*if input is ok proceed with fun process*/
 	else
@@ -1374,7 +1374,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      5c8:	81 e0       	ldi	r24, 0x01	; 1
 				case GPIOA:
 					switch(DIO_info->dir)
@@ -1395,7 +1395,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      5d6:	81 e0       	ldi	r24, 0x01	; 1
 						case INPUT:
 							CLEAR_MASK(PORTA_DIR,DIO_info->pins);
@@ -1427,7 +1427,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      5f0:	81 e0       	ldi	r24, 0x01	; 1
 				case GPIOB:
 					switch(DIO_info->dir)
@@ -1448,7 +1448,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      5fe:	81 e0       	ldi	r24, 0x01	; 1
 						case INPUT:
 						CLEAR_MASK(PORTB_DIR,DIO_info->pins);
@@ -1480,7 +1480,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      618:	81 e0       	ldi	r24, 0x01	; 1
 				case GPIOC:
 					switch(DIO_info->dir)
@@ -1501,7 +1501,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      626:	81 e0       	ldi	r24, 0x01	; 1
 						case INPUT:
 						CLEAR_MASK(PORTC_DIR,DIO_info->pins);
@@ -1533,7 +1533,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      640:	81 e0       	ldi	r24, 0x01	; 1
 				case GPIOD:
 					switch(DIO_info->dir)
@@ -1554,7 +1554,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      64e:	81 e0       	ldi	r24, 0x01	; 1
 						case INPUT:
 						CLEAR_MASK(PORTD_DIR,DIO_info->pins);
@@ -1563,12 +1563,12 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 						SET_MASK(PORTD_DIR,DIO_info->pins);
 						break;
      650:	08 95       	ret
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
     /*check for errors*/
 	if((DIO_info->dir != OUTPUT && DIO_info->dir != INPUT) || 
 		DIO_info->GPIO > GPIOD)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      652:	8f ef       	ldi	r24, 0xFF	; 255
      654:	08 95       	ret
      656:	8f ef       	ldi	r24, 0xFF	; 255
@@ -1578,7 +1578,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 					}
 				break;
 				default:
-					fun_status = NOK;
+					u8_fun_status = NOK;
      65a:	8f ef       	ldi	r24, 0xFF	; 255
      65c:	08 95       	ret
 /*- LOCAL FUNCTIONS IMPLEMENTATION ------------------------*/
@@ -1586,7 +1586,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      65e:	81 e0       	ldi	r24, 0x01	; 1
      660:	08 95       	ret
      662:	81 e0       	ldi	r24, 0x01	; 1
@@ -1594,11 +1594,11 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
      666:	81 e0       	ldi	r24, 0x01	; 1
      668:	08 95       	ret
      66a:	81 e0       	ldi	r24, 0x01	; 1
-					fun_status = NOK;
+					u8_fun_status = NOK;
 				break;
 			}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      66c:	08 95       	ret
 
@@ -1606,7 +1606,7 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	/*check for errors*/
 	if(GPIO > GPIOD || (value != HIGH && value !=LOW))
      66e:	84 30       	cpi	r24, 0x04	; 4
@@ -1617,7 +1617,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
      678:	9e 3f       	cpi	r25, 0xFE	; 254
      67a:	08 f4       	brcc	.+2      	; 0x67e <DIO_Write+0x10>
      67c:	4a c0       	rjmp	.+148    	; 0x712 <DIO_Write+0xa4>
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*if input is ok proceed with fun process*/
 	else
@@ -1651,7 +1651,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      6a0:	81 e0       	ldi	r24, 0x01	; 1
 			case GPIOA:
 			switch(value)
@@ -1670,7 +1670,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      6aa:	81 e0       	ldi	r24, 0x01	; 1
 				case LOW:
 				CLEAR_MASK(PORTA_DATA,pins);
@@ -1700,7 +1700,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      6c0:	81 e0       	ldi	r24, 0x01	; 1
 			case GPIOB:
 			switch(value)
@@ -1719,7 +1719,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      6ca:	81 e0       	ldi	r24, 0x01	; 1
 				case LOW:
 				CLEAR_MASK(PORTB_DATA,pins);
@@ -1749,7 +1749,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      6e0:	81 e0       	ldi	r24, 0x01	; 1
 			case GPIOC:
 			switch(value)
@@ -1768,7 +1768,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      6ea:	81 e0       	ldi	r24, 0x01	; 1
 				case INPUT:
 				CLEAR_MASK(PORTC_DATA,pins);
@@ -1798,7 +1798,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      700:	81 e0       	ldi	r24, 0x01	; 1
 			case GPIOD:
 			switch(value)
@@ -1817,7 +1817,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      70a:	81 e0       	ldi	r24, 0x01	; 1
 				case INPUT:
 				CLEAR_MASK(PORTD_DATA,pins);
@@ -1827,11 +1827,11 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 				break;
      70c:	08 95       	ret
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	/*check for errors*/
 	if(GPIO > GPIOD || (value != HIGH && value !=LOW))
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      70e:	8f ef       	ldi	r24, 0xFF	; 255
      710:	08 95       	ret
      712:	8f ef       	ldi	r24, 0xFF	; 255
@@ -1841,7 +1841,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 			}
 			break;
 			default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
      716:	8f ef       	ldi	r24, 0xFF	; 255
      718:	08 95       	ret
 }
@@ -1849,7 +1849,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      71a:	81 e0       	ldi	r24, 0x01	; 1
      71c:	08 95       	ret
      71e:	81 e0       	ldi	r24, 0x01	; 1
@@ -1857,11 +1857,11 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
      722:	81 e0       	ldi	r24, 0x01	; 1
      724:	08 95       	ret
      726:	81 e0       	ldi	r24, 0x01	; 1
-			fun_status = NOK;
+			u8_fun_status = NOK;
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      728:	08 95       	ret
 
@@ -1869,7 +1869,7 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 }
 static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Pwm_Cfg->Channel > PWM_CH2 || Pwm_Cfg == NULL)
      72a:	fc 01       	movw	r30, r24
@@ -1897,24 +1897,24 @@ static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
      748:	90 6a       	ori	r25, 0xA0	; 160
      74a:	9f bd       	out	0x2f, r25	; 47
      74c:	8e bd       	out	0x2e, r24	; 46
-				gPWM_prescaler = T1_PRESCALER_256 ;
+				gu8_PWM_prescaler = T1_PRESCALER_256 ;
      74e:	84 e0       	ldi	r24, 0x04	; 4
-     750:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <gPWM_prescaler>
+     750:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <gu8_PWM_prescaler>
 				/*set OCR1A AND OCR1B AS OUTPUT*/
 				PORTD_DIR |= (OCR1B_BIT|OCR1A_BIT);
      754:	81 b3       	in	r24, 0x11	; 17
      756:	80 63       	ori	r24, 0x30	; 48
      758:	81 bb       	out	0x11, r24	; 17
 		}
-	return fun_status;
+	return u8_fun_status;
 }
 static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      75a:	81 e0       	ldi	r24, 0x01	; 1
 				TCCR1 |=T1_PWM_PC_ICR1_TOP;
 				TCCR1 |= (T1_OC1A_CLEAR|T1_OC1B_CLEAR);
-				gPWM_prescaler = T1_PRESCALER_256 ;
+				gu8_PWM_prescaler = T1_PRESCALER_256 ;
 				/*set OCR1A AND OCR1B AS OUTPUT*/
 				PORTD_DIR |= (OCR1B_BIT|OCR1A_BIT);
 			break;
@@ -1922,7 +1922,7 @@ static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
 }
 static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 	if(Pwm_Cfg->Channel > PWM_CH2 || Pwm_Cfg == NULL)
      75e:	8f ef       	ldi	r24, 0xFF	; 255
@@ -1930,18 +1930,18 @@ static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
      762:	8f ef       	ldi	r24, 0xFF	; 255
      764:	08 95       	ret
 		}
-	return fun_status;
+	return u8_fun_status;
 }
 static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      766:	81 e0       	ldi	r24, 0x01	; 1
 			break;
 			case PWM_CH2:
 			break;
 		}
 	}
-	return fun_status;
+	return u8_fun_status;
      768:	08 95       	ret
 		/*zero all registers
 		* TCCR1 = TCTN1 = OCR1A = OCR1B = ICR1 = ZERO
@@ -2008,7 +2008,7 @@ static ERROR_STATUS validate_cnfg(Pwm_Cfg_s *Pwm_Cfg)
 
 000007b8 <Pwm_Start>:
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
@@ -2020,11 +2020,11 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      7c0:	cf 93       	push	r28
      7c2:	df 93       	push	r29
      7c4:	d6 2f       	mov	r29, r22
-	*	1-validate input
-	*	2-evaluate ticks TCNT value and OCR1A value
 	*	3-set prescaler to enable pwm                                                                      
 	7************************************************************************/
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
+	uint32_t u32_ticks;
+	uint32_t u32_duty_value;
 	if(Frequncy < MIN_FREQ || Frequncy > MAX_FREQ || Channel > PWM_CH2 )
      7c6:	69 01       	movw	r12, r18
      7c8:	7a 01       	movw	r14, r20
@@ -2043,7 +2043,7 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      7e2:	85 30       	cpi	r24, 0x05	; 5
      7e4:	20 f0       	brcs	.+8      	; 0x7ee <Pwm_Start+0x36>
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      7e6:	cf ef       	ldi	r28, 0xFF	; 255
      7e8:	03 c0       	rjmp	.+6      	; 0x7f0 <Pwm_Start+0x38>
      7ea:	cf ef       	ldi	r28, 0xFF	; 255
@@ -2053,22 +2053,22 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 	*	2-evaluate ticks TCNT value and OCR1A value
 	*	3-set prescaler to enable pwm                                                                      
 	7************************************************************************/
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      7ee:	c1 e0       	ldi	r28, 0x01	; 1
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
-	uint32_t duty_value	=  (((ticks*Duty)/HUNDERED_PRESENT));
+	u32_ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
+	u32_duty_value	=  (((u32_ticks*Duty)/HUNDERED_PRESENT));
 
 	switch(Channel)
      7f0:	83 30       	cpi	r24, 0x03	; 3
      7f2:	e1 f4       	brne	.+56     	; 0x82c <Pwm_Start+0x74>
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
 	}
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
+	u32_ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
      7f4:	22 0f       	add	r18, r18
      7f6:	33 1f       	adc	r19, r19
      7f8:	44 1f       	adc	r20, r20
@@ -2086,10 +2086,10 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 		TCNT1 = ZERO;
      808:	1d bc       	out	0x2d, r1	; 45
      80a:	1c bc       	out	0x2c, r1	; 44
-		ICR1  = ticks;
+		ICR1  = u32_ticks;
      80c:	37 bd       	out	0x27, r19	; 39
      80e:	26 bd       	out	0x26, r18	; 38
-		OCR1A = duty_value;
+		OCR1A = u32_duty_value;
      810:	ad 2f       	mov	r26, r29
      812:	b0 e0       	ldi	r27, 0x00	; 0
      814:	0e 94 d8 08 	call	0x11b0	; 0x11b0 <__muluhisi3>
@@ -2100,21 +2100,21 @@ ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      820:	0e 94 b0 08 	call	0x1160	; 0x1160 <__udivmodsi4>
      824:	3b bd       	out	0x2b, r19	; 43
      826:	2a bd       	out	0x2a, r18	; 42
-		OCR1B = duty_value;
+		OCR1B = u32_duty_value;
      828:	39 bd       	out	0x29, r19	; 41
      82a:	28 bd       	out	0x28, r18	; 40
 		break;
 		case PWM_CH2:
 		break;
 	} 
-	TCCR1 |= gPWM_prescaler;
+	TCCR1 |= gu8_PWM_prescaler;
      82c:	8e b5       	in	r24, 0x2e	; 46
      82e:	9f b5       	in	r25, 0x2f	; 47
-     830:	20 91 6a 00 	lds	r18, 0x006A	; 0x80006a <gPWM_prescaler>
+     830:	20 91 6a 00 	lds	r18, 0x006A	; 0x80006a <gu8_PWM_prescaler>
      834:	82 2b       	or	r24, r18
      836:	9f bd       	out	0x2f, r25	; 47
      838:	8e bd       	out	0x2e, r24	; 46
-	return fun_status;
+	return u8_fun_status;
 }
      83a:	8c 2f       	mov	r24, r28
      83c:	df 91       	pop	r29
@@ -2137,11 +2137,11 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      852:	cf 93       	push	r28
      854:	df 93       	push	r29
      856:	d6 2f       	mov	r29, r22
-	*	1-validate input
-	*	2-evaluate ticks TCNT value and OCR1A value
 	*	3-set prescaler to enable pwm                                                                      
 	7************************************************************************/
 	uint8_t fun_status = OK;
+	uint32_t u32_ticks;
+	uint32_t u32_duty_value;
 	if(Frequncy < MIN_FREQ || Frequncy > MAX_FREQ || Channel > PWM_CH2 )
      858:	69 01       	movw	r12, r18
      85a:	7a 01       	movw	r14, r20
@@ -2174,8 +2174,8 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      880:	c1 e0       	ldi	r28, 0x01	; 1
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
-	uint32_t duty_value	=  (((ticks*Duty)/HUNDERED_PRESENT));
+	u32_ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
+	u32_duty_value	=  (((u32_ticks*Duty)/HUNDERED_PRESENT));
 
 	switch(Channel)
      882:	83 30       	cpi	r24, 0x03	; 3
@@ -2185,7 +2185,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 	}
 	/*multiply freq by 2 as Phase correct operates on half of the given freq*/
 	Frequncy +=Frequncy;
-	uint32_t ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
+	u32_ticks		=  ((FCPU/PRESCALER_256)/Frequncy);
      886:	22 0f       	add	r18, r18
      888:	33 1f       	adc	r19, r19
      88a:	44 1f       	adc	r20, r20
@@ -2203,10 +2203,10 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 		TCNT1 = ZERO;
      89a:	1d bc       	out	0x2d, r1	; 45
      89c:	1c bc       	out	0x2c, r1	; 44
-		ICR1  = ticks;
+		ICR1  = u32_ticks;
      89e:	37 bd       	out	0x27, r19	; 39
      8a0:	26 bd       	out	0x26, r18	; 38
-		OCR1A = duty_value;
+		OCR1A = u32_duty_value;
      8a2:	ad 2f       	mov	r26, r29
      8a4:	b0 e0       	ldi	r27, 0x00	; 0
      8a6:	0e 94 d8 08 	call	0x11b0	; 0x11b0 <__muluhisi3>
@@ -2217,7 +2217,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      8b2:	0e 94 b0 08 	call	0x1160	; 0x1160 <__udivmodsi4>
      8b6:	3b bd       	out	0x2b, r19	; 43
      8b8:	2a bd       	out	0x2a, r18	; 42
-		OCR1B = duty_value;
+		OCR1B = u32_duty_value;
      8ba:	39 bd       	out	0x29, r19	; 41
      8bc:	28 bd       	out	0x28, r18	; 40
 		break;
@@ -2237,10 +2237,10 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 
 000008ce <Timer_Init>:
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      8ce:	fc 01       	movw	r30, r24
      8d0:	80 81       	ld	r24, Z
@@ -2296,7 +2296,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      934:	29 0f       	add	r18, r25
      936:	22 30       	cpi	r18, 0x02	; 2
      938:	18 f4       	brcc	.+6      	; 0x940 <Timer_Init+0x72>
-     93a:	90 93 6d 00 	sts	0x006D, r25	; 0x80006d <genu_timer0prescaler>
+     93a:	90 93 6d 00 	sts	0x006D, r25	; 0x80006d <gu8_timer0prescaler>
      93e:	01 c0       	rjmp	.+2      	; 0x942 <Timer_Init+0x74>
      940:	8f ef       	ldi	r24, 0xFF	; 255
      942:	92 81       	ldd	r25, Z+2	; 0x02
@@ -2385,7 +2385,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      9e8:	29 0f       	add	r18, r25
      9ea:	22 30       	cpi	r18, 0x02	; 2
      9ec:	18 f4       	brcc	.+6      	; 0x9f4 <Timer_Init+0x126>
-     9ee:	90 93 6c 00 	sts	0x006C, r25	; 0x80006c <genu_timer1prescaler>
+     9ee:	90 93 6c 00 	sts	0x006C, r25	; 0x80006c <gu8_timer1prescaler>
      9f2:	01 c0       	rjmp	.+2      	; 0x9f6 <Timer_Init+0x128>
      9f4:	8f ef       	ldi	r24, 0xFF	; 255
      9f6:	92 81       	ldd	r25, Z+2	; 0x02
@@ -2435,7 +2435,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      a4e:	93 81       	ldd	r25, Z+3	; 0x03
      a50:	98 30       	cpi	r25, 0x08	; 8
      a52:	18 f4       	brcc	.+6      	; 0xa5a <Timer_Init+0x18c>
-     a54:	90 93 6b 00 	sts	0x006B, r25	; 0x80006b <genu_timer2prescaler>
+     a54:	90 93 6b 00 	sts	0x006B, r25	; 0x80006b <gu8_timer2prescaler>
      a58:	01 c0       	rjmp	.+2      	; 0xa5c <Timer_Init+0x18e>
      a5a:	8f ef       	ldi	r24, 0xFF	; 255
      a5c:	92 81       	ldd	r25, Z+2	; 0x02
@@ -2470,7 +2470,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      a92:	08 f0       	brcs	.+2      	; 0xa96 <Timer_Start+0x18>
      a94:	ac c0       	rjmp	.+344    	; 0xbee <Timer_Start+0x170>
      a96:	62 bf       	out	0x32, r22	; 50
-     a98:	80 91 6d 00 	lds	r24, 0x006D	; 0x80006d <genu_timer0prescaler>
+     a98:	80 91 6d 00 	lds	r24, 0x006D	; 0x80006d <gu8_timer0prescaler>
      a9c:	82 30       	cpi	r24, 0x02	; 2
      a9e:	b9 f0       	breq	.+46     	; 0xace <Timer_Start+0x50>
      aa0:	28 f4       	brcc	.+10     	; 0xaac <Timer_Start+0x2e>
@@ -2523,7 +2523,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      afe:	88 7f       	andi	r24, 0xF8	; 248
      b00:	9f bd       	out	0x2f, r25	; 47
      b02:	8e bd       	out	0x2e, r24	; 46
-     b04:	80 91 6c 00 	lds	r24, 0x006C	; 0x80006c <genu_timer1prescaler>
+     b04:	80 91 6c 00 	lds	r24, 0x006C	; 0x80006c <gu8_timer1prescaler>
      b08:	82 30       	cpi	r24, 0x02	; 2
      b0a:	d9 f0       	breq	.+54     	; 0xb42 <Timer_Start+0xc4>
      b0c:	28 f4       	brcc	.+10     	; 0xb18 <Timer_Start+0x9a>
@@ -2586,7 +2586,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
      b7e:	09 f0       	breq	.+2      	; 0xb82 <Timer_Start+0x104>
      b80:	e0 f5       	brcc	.+120    	; 0xbfa <Timer_Start+0x17c>
      b82:	64 bd       	out	0x24, r22	; 36
-     b84:	e0 91 6b 00 	lds	r30, 0x006B	; 0x80006b <genu_timer2prescaler>
+     b84:	e0 91 6b 00 	lds	r30, 0x006B	; 0x80006b <gu8_timer2prescaler>
      b88:	8e 2f       	mov	r24, r30
      b8a:	90 e0       	ldi	r25, 0x00	; 0
      b8c:	88 30       	cpi	r24, 0x08	; 8
@@ -2679,7 +2679,7 @@ ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	switch(Timer_CH_NO)
      c34:	81 30       	cpi	r24, 0x01	; 1
      c36:	59 f0       	breq	.+22     	; 0xc4e <Timer_GetValue+0x1a>
@@ -2695,12 +2695,12 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
      c44:	fb 01       	movw	r30, r22
      c46:	91 83       	std	Z+1, r25	; 0x01
      c48:	80 83       	st	Z, r24
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      c4a:	81 e0       	ldi	r24, 0x01	; 1
 	switch(Timer_CH_NO)
 	{
@@ -2715,12 +2715,12 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
      c52:	fb 01       	movw	r30, r22
      c54:	91 83       	std	Z+1, r25	; 0x01
      c56:	80 83       	st	Z, r24
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      c58:	81 e0       	ldi	r24, 0x01	; 1
 		case TIMER_CH0:
 			*Data = TCNT0;
@@ -2736,12 +2736,12 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
      c60:	fb 01       	movw	r30, r22
      c62:	91 83       	std	Z+1, r25	; 0x01
      c64:	80 83       	st	Z, r24
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      c66:	81 e0       	ldi	r24, 0x01	; 1
 		case TIMER_CH1:
 			*Data = TCNT1;
@@ -2751,11 +2751,11 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 		break;
      c68:	08 95       	ret
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
      c6a:	8f ef       	ldi	r24, 0xFF	; 255
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
      c6c:	08 95       	ret
 
 00000c6e <__vector_3>:
@@ -2788,7 +2788,7 @@ ISR(INT2_vect)
 	*	EVEN VALUE start timer 0
 	*	ODD value stop timer 0
 	*/
-	PORTA_DIR   = 0xff;
+	PORTA_DIR   = HIGH;
      c92:	8f ef       	ldi	r24, 0xFF	; 255
      c94:	8a bb       	out	0x1a, r24	; 26
 	
@@ -2797,21 +2797,21 @@ ISR(INT2_vect)
      c98:	70 e0       	ldi	r23, 0x00	; 0
      c9a:	82 e0       	ldi	r24, 0x02	; 2
      c9c:	0e 94 3f 05 	call	0xa7e	; 0xa7e <Timer_Start>
-	if(gu8SwICU_INT2_vec_enteranceFlag&1)
+	if(gu8SwICU_INT2_vec_enteranceFlag&TRUE)
      ca0:	80 91 6f 00 	lds	r24, 0x006F	; 0x80006f <gu8SwICU_INT2_vec_enteranceFlag>
      ca4:	80 ff       	sbrs	r24, 0
      ca6:	0c c0       	rjmp	.+24     	; 0xcc0 <__vector_3+0x52>
-}
 
 
-void SwICU_Stop(void){
+ERROR_STATUS SwICU_Stop(void){
 	/*stop timer */
-	Timer_Stop(TIMER_CH2);
+	uint8_t u8_fun_status = OK;
+	u8_fun_status = Timer_Stop(TIMER_CH2);
      ca8:	82 e0       	ldi	r24, 0x02	; 2
      caa:	0e 94 01 06 	call	0xc02	; 0xc02 <Timer_Stop>
 	
 	Timer_Start(TIMER_CH2,ZERO);
-	if(gu8SwICU_INT2_vec_enteranceFlag&1)
+	if(gu8SwICU_INT2_vec_enteranceFlag&TRUE)
 	{
 		SwICU_Stop();
 		gu8SwICU_INT2_vec_enteranceFlag = FALSE;
@@ -2830,11 +2830,11 @@ void SwICU_Stop(void){
      cbc:	84 bf       	out	0x34, r24	; 52
      cbe:	0b c0       	rjmp	.+22     	; 0xcd6 <__vector_3+0x68>
 
-
-void SwICU_Start(void)
+ERROR_STATUS SwICU_Start(void)
 {
 	/*start timer*/
-	Timer_Start(TIMER_CH2,ZERO);
+	uint8_t u8_fun_status = OK;
+	u8_fun_status = Timer_Start(TIMER_CH2,ZERO);
      cc0:	60 e0       	ldi	r22, 0x00	; 0
      cc2:	70 e0       	ldi	r23, 0x00	; 0
      cc4:	82 e0       	ldi	r24, 0x02	; 2
@@ -2924,7 +2924,7 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
      d36:	cd b7       	in	r28, 0x3d	; 61
      d38:	de b7       	in	r29, 0x3e	; 62
 	/*validate input*/
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 
 		if(Icu_Cfg == NULL || Icu_Cfg->ICU_Ch_No > ICU_CH2 || 
      d3a:	00 97       	sbiw	r24, 0x00	; 0
@@ -2940,11 +2940,11 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
      d4e:	08 f0       	brcs	.+2      	; 0xd52 <Icu_Init+0x2a>
      d50:	43 c0       	rjmp	.+134    	; 0xdd8 <Icu_Init+0xb0>
      d52:	8c 01       	movw	r16, r24
-*				MCUCR [ISC11 ISC10 ISC01 ISC00]
-*				MCUCSR [ISCR2]
-*/
-static void external_Int_Enable(uint8_t en_externalInt,uint8_t swICU_Edge)
-{
+	if(en_externalInt > EN_INT0 || swICU_Edge > ICU_RISE_TO_FALL)
+	{
+		u8_fun_status = NOK;
+	}
+	
 	switch (en_externalInt)
      d54:	22 30       	cpi	r18, 0x02	; 2
      d56:	b1 f4       	brne	.+44     	; 0xd84 <Icu_Init+0x5c>
@@ -2986,7 +2986,7 @@ static void external_Int_Enable(uint8_t en_externalInt,uint8_t swICU_Edge)
      d82:	78 94       	sei
 			*  3-zero all used variables
 			*/
-			Timer_cfg_s timer_cfg;
+			Timer_cfg_s str_timer_cfg;
 
 			external_Int_Enable(Icu_Cfg->ICU_Ch_No,ICU_FALE_TO_RISE);
 			switch(Icu_Cfg->ICU_Ch_Timer)
@@ -2999,17 +2999,17 @@ static void external_Int_Enable(uint8_t en_externalInt,uint8_t swICU_Edge)
      d90:	15 c0       	rjmp	.+42     	; 0xdbc <Icu_Init+0x94>
 			{
 				case TIMER_CH0:
-						timer_cfg.Timer_CH_NO				    =	TIMER_CH0;
+						str_timer_cfg.Timer_CH_NO				    =	TIMER_CH0;
      d92:	19 82       	std	Y+1, r1	; 0x01
-						timer_cfg.Timer_Mode					=	TIMER_MODE;
+						str_timer_cfg.Timer_Mode					=	TIMER_MODE;
      d94:	1a 82       	std	Y+2, r1	; 0x02
-						timer_cfg.Timer_Polling_Or_Interrupt	=	TIMER_INTERRUPT_MODE;
+						str_timer_cfg.Timer_Polling_Or_Interrupt	=	TIMER_INTERRUPT_MODE;
      d96:	81 e0       	ldi	r24, 0x01	; 1
      d98:	8b 83       	std	Y+3, r24	; 0x03
-						timer_cfg.Timer_Prescaler				=   TIMER_PRESCALER_256;
+						str_timer_cfg.Timer_Prescaler				=   TIMER_PRESCALER_256;
      d9a:	86 e0       	ldi	r24, 0x06	; 6
      d9c:	8c 83       	std	Y+4, r24	; 0x04
-						Timer_Init(&timer_cfg);
+						Timer_Init(&str_timer_cfg);
      d9e:	ce 01       	movw	r24, r28
      da0:	01 96       	adiw	r24, 0x01	; 1
      da2:	0e 94 67 04 	call	0x8ce	; 0x8ce <Timer_Init>
@@ -3018,17 +3018,17 @@ static void external_Int_Enable(uint8_t en_externalInt,uint8_t swICU_Edge)
 				case TIMER_CH1:
 				break;
 				case TIMER_CH2:
-						timer_cfg.Timer_CH_NO				    =	TIMER_CH2;
+						str_timer_cfg.Timer_CH_NO				    =	TIMER_CH2;
      da8:	82 e0       	ldi	r24, 0x02	; 2
      daa:	89 83       	std	Y+1, r24	; 0x01
-						timer_cfg.Timer_Mode					=	TIMER_MODE;
+						str_timer_cfg.Timer_Mode					=	TIMER_MODE;
      dac:	1a 82       	std	Y+2, r1	; 0x02
-						timer_cfg.Timer_Polling_Or_Interrupt	=	TIMER_INTERRUPT_MODE;
+						str_timer_cfg.Timer_Polling_Or_Interrupt	=	TIMER_INTERRUPT_MODE;
      dae:	91 e0       	ldi	r25, 0x01	; 1
      db0:	9b 83       	std	Y+3, r25	; 0x03
-						timer_cfg.Timer_Prescaler				=   TIMER_PRESCALER_8;
+						str_timer_cfg.Timer_Prescaler				=   TIMER_PRESCALER_8;
      db2:	8c 83       	std	Y+4, r24	; 0x04
-						Timer_Init(&timer_cfg);
+						Timer_Init(&str_timer_cfg);
      db4:	ce 01       	movw	r24, r28
      db6:	01 96       	adiw	r24, 0x01	; 1
      db8:	0e 94 67 04 	call	0x8ce	; 0x8ce <Timer_Init>
@@ -3046,14 +3046,14 @@ static void external_Int_Enable(uint8_t en_externalInt,uint8_t swICU_Edge)
 ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 {
 	/*validate input*/
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      dcc:	81 e0       	ldi	r24, 0x01	; 1
      dce:	05 c0       	rjmp	.+10     	; 0xdda <Icu_Init+0xb2>
 
 		if(Icu_Cfg == NULL || Icu_Cfg->ICU_Ch_No > ICU_CH2 || 
 			Icu_Cfg->ICU_Ch_Timer > ICU_TIMER_CH2)
 		{
-				fun_status = NOK;
+				u8_fun_status = NOK;
      dd0:	8f ef       	ldi	r24, 0xFF	; 255
      dd2:	03 c0       	rjmp	.+6      	; 0xdda <Icu_Init+0xb2>
      dd4:	8f ef       	ldi	r24, 0xFF	; 255
@@ -3063,7 +3063,7 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 			gu8SwICU_INT2_vec_enteranceFlag = ZERO;
 			gu8SwICU_Timer2_Stop_Flag = FALSE;
 		}
-		return fun_status;
+		return u8_fun_status;
 }
      dda:	26 96       	adiw	r28, 0x06	; 6
      ddc:	0f b6       	in	r0, 0x3f	; 63
@@ -3102,7 +3102,7 @@ ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel,
      e12:	de bf       	out	0x3e, r29	; 62
      e14:	0f be       	out	0x3f, r0	; 63
      e16:	cd bf       	out	0x3d, r28	; 61
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	
 	if(Icu_Channel > ICU_TIMER_CH2 || Icu_EdgeToEdge > ICU_FALE_TO_RISE || 
      e18:	83 30       	cpi	r24, 0x03	; 3
@@ -3122,14 +3122,14 @@ ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel,
      e2a:	88 23       	and	r24, r24
      e2c:	e1 f3       	breq	.-8      	; 0xe26 <Icu_ReadTime+0x36>
      e2e:	4a 01       	movw	r8, r20
-	uint16_t timerRead ;
-	Timer_GetValue(TIMER_CH2,&timerRead);
+	uint16_t u16_timerRead ;
+	Timer_GetValue(TIMER_CH2,&u16_timerRead);
      e30:	be 01       	movw	r22, r28
      e32:	6f 5f       	subi	r22, 0xFF	; 255
      e34:	7f 4f       	sbci	r23, 0xFF	; 255
      e36:	82 e0       	ldi	r24, 0x02	; 2
      e38:	0e 94 1a 06 	call	0xc34	; 0xc34 <Timer_GetValue>
-	*Icu_Time = (gu16SwICU_timer2_Overflow_Counts*(uint64_t)SWICU_TIMER2_RESLUTION)+timerRead;
+	*Icu_Time = (gu16SwICU_timer2_Overflow_Counts*(uint64_t)SWICU_TIMER2_RESLUTION)+u16_timerRead;
      e3c:	40 91 70 00 	lds	r20, 0x0070	; 0x800070 <gu16SwICU_timer2_Overflow_Counts>
      e40:	50 91 71 00 	lds	r21, 0x0071	; 0x800071 <gu16SwICU_timer2_Overflow_Counts+0x1>
      e44:	24 2f       	mov	r18, r20
@@ -3174,14 +3174,14 @@ ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel,
 ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel,
 						 uint8_t Icu_EdgeToEdge, uint64_t * Icu_Time)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
      e92:	81 e0       	ldi	r24, 0x01	; 1
      e94:	05 c0       	rjmp	.+10     	; 0xea0 <Icu_ReadTime+0xb0>
 	
 	if(Icu_Channel > ICU_TIMER_CH2 || Icu_EdgeToEdge > ICU_FALE_TO_RISE || 
 		Icu_Time == NULL)
 	{
-		fun_status = NOK;
+		u8_fun_status = NOK;
      e96:	8f ef       	ldi	r24, 0xFF	; 255
      e98:	03 c0       	rjmp	.+6      	; 0xea0 <Icu_ReadTime+0xb0>
      e9a:	8f ef       	ldi	r24, 0xFF	; 255
@@ -3191,7 +3191,7 @@ ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel,
 	gu8SwICU_INT2_vec_enteranceFlag = ZERO;
 	gu8SwICU_Timer2_Stop_Flag = FALSE;
 	}
-	return fun_status;
+	return u8_fun_status;
 }
      ea0:	2a 96       	adiw	r28, 0x0a	; 10
      ea2:	0f b6       	in	r0, 0x3f	; 63

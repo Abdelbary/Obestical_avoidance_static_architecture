@@ -707,21 +707,23 @@ END GROUP
                 0x00800062                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.car_state
+ .bss.genu_car_state
                 0x00800062        0x1 Application/CarSm/car_sm.o
- .bss.motor_2_init_status
+ .bss.gu8_motor_2_init_status
                 0x00800063        0x1 HAL/Motor/Motor.o
- .bss.motor_1_init_status
+ .bss.gu8_motor_1_init_status
                 0x00800064        0x1 HAL/Motor/Motor.o
- .bss.pwm_cfg   0x00800065        0x2 HAL/Motor/Motor.o
- .bss.DIO_cfg   0x00800067        0x3 HAL/Motor/Motor.o
- .bss.gPWM_prescaler
+ .bss.gstr_pwm_cfg
+                0x00800065        0x2 HAL/Motor/Motor.o
+ .bss.gstr_DIO_cfg
+                0x00800067        0x3 HAL/Motor/Motor.o
+ .bss.gu8_PWM_prescaler
                 0x0080006a        0x1 MCAL/PWM/PWM.o
- .bss.genu_timer2prescaler
+ .bss.gu8_timer2prescaler
                 0x0080006b        0x1 MCAL/Timers/Timers.o
- .bss.genu_timer1prescaler
+ .bss.gu8_timer1prescaler
                 0x0080006c        0x1 MCAL/Timers/Timers.o
- .bss.genu_timer0prescaler
+ .bss.gu8_timer0prescaler
                 0x0080006d        0x1 MCAL/Timers/Timers.o
  .bss.gu8SwICU_Timer2_Stop_Flag
                 0x0080006e        0x1 SWICU/SWICU.o
@@ -838,7 +840,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x22cc
+.debug_info     0x00000000     0x23a9
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega32/avr5/crtatmega32.o
  .debug_info    0x000004e6      0x289 Application/CarSm/car_sm.o
@@ -849,9 +851,9 @@ END GROUP
  .debug_info    0x000013a5      0x21d MCAL/DIO/DIO.o
  .debug_info    0x000015c2      0x39f MCAL/PWM/PWM.o
  .debug_info    0x00001961      0x440 MCAL/Timers/Timers.o
- .debug_info    0x00001da1      0x52b SWICU/SWICU.o
+ .debug_info    0x00001da1      0x608 SWICU/SWICU.o
 
-.debug_abbrev   0x00000000      0xf90
+.debug_abbrev   0x00000000      0xf7f
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega32/avr5/crtatmega32.o
  .debug_abbrev  0x000004a3      0x161 Application/CarSm/car_sm.o
@@ -862,7 +864,7 @@ END GROUP
  .debug_abbrev  0x000009e7       0xe0 MCAL/DIO/DIO.o
  .debug_abbrev  0x00000ac7      0x185 MCAL/PWM/PWM.o
  .debug_abbrev  0x00000c4c      0x121 MCAL/Timers/Timers.o
- .debug_abbrev  0x00000d6d      0x223 SWICU/SWICU.o
+ .debug_abbrev  0x00000d6d      0x212 SWICU/SWICU.o
 
 .debug_line     0x00000000     0x17c5
  *(.debug_line .debug_line.* .debug_line_end)
@@ -889,29 +891,29 @@ END GROUP
  .debug_frame   0x000002b0       0x64 MCAL/Timers/Timers.o
  .debug_frame   0x00000314      0x110 SWICU/SWICU.o
 
-.debug_str      0x00000000      0xd85
+.debug_str      0x00000000      0xdaf
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega32/avr5/crtatmega32.o
- .debug_str     0x00000196      0x294 Application/CarSm/car_sm.o
-                                0x2c8 (size before relaxing)
- .debug_str     0x0000042a       0x8b Application/Steering/Steering.o
-                                0x21e (size before relaxing)
- .debug_str     0x000004b5       0xce HAL/Motor/Motor.o
-                                0x29d (size before relaxing)
- .debug_str     0x00000583       0x6c HAL/UltraSonic/ultraSonic.o
+ .debug_str     0x00000196      0x28e Application/CarSm/car_sm.o
+                                0x2cd (size before relaxing)
+ .debug_str     0x00000424       0x99 Application/Steering/Steering.o
+                                0x221 (size before relaxing)
+ .debug_str     0x000004bd       0xe0 HAL/Motor/Motor.o
+                                0x2b2 (size before relaxing)
+ .debug_str     0x0000059d       0x66 HAL/UltraSonic/ultraSonic.o
                                 0x285 (size before relaxing)
- .debug_str     0x000005ef       0x11 main.o
+ .debug_str     0x00000603       0x11 main.o
                                 0x17e (size before relaxing)
- .debug_str     0x00000600       0x40 MCAL/DIO/DIO.o
-                                0x1e0 (size before relaxing)
- .debug_str     0x00000640      0x23e MCAL/PWM/PWM.o
-                                0x406 (size before relaxing)
- .debug_str     0x0000087e      0x398 MCAL/Timers/Timers.o
+ .debug_str     0x00000614       0x40 MCAL/DIO/DIO.o
+                                0x1e3 (size before relaxing)
+ .debug_str     0x00000654      0x24f MCAL/PWM/PWM.o
+                                0x41f (size before relaxing)
+ .debug_str     0x000008a3      0x395 MCAL/Timers/Timers.o
                                 0x5a0 (size before relaxing)
- .debug_str     0x00000c16      0x16f SWICU/SWICU.o
-                                0x3e9 (size before relaxing)
+ .debug_str     0x00000c38      0x177 SWICU/SWICU.o
+                                0x3f4 (size before relaxing)
 
-.debug_loc      0x00000000     0x1e7e
+.debug_loc      0x00000000     0x1f0d
  *(.debug_loc)
  .debug_loc     0x00000000       0xef Application/CarSm/car_sm.o
  .debug_loc     0x000000ef       0xc5 Application/Steering/Steering.o
@@ -920,7 +922,7 @@ END GROUP
  .debug_loc     0x00000920      0x70a MCAL/DIO/DIO.o
  .debug_loc     0x0000102a      0x71a MCAL/PWM/PWM.o
  .debug_loc     0x00001744      0x2ea MCAL/Timers/Timers.o
- .debug_loc     0x00001a2e      0x450 SWICU/SWICU.o
+ .debug_loc     0x00001a2e      0x4df SWICU/SWICU.o
 
 .debug_macinfo
  *(.debug_macinfo)

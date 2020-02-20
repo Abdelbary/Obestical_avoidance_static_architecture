@@ -126,16 +126,16 @@ typedef enum En_time2Mod_t{
 
 /*- LOCAL FUNCTIONS PROTOTYPES ----------------------------*/ 
 /*- GLOBAL STATIC VARIABLES -------------------------------*/ 
-static uint8_t	 genu_timer0prescaler;
-static uint8_t	 genu_timer1prescaler;
-static uint8_t	 genu_timer2prescaler;
+static uint8_t	 gu8_timer0prescaler;
+static uint8_t	 gu8_timer1prescaler;
+static uint8_t	 gu8_timer2prescaler;
 /*- GLOBAL EXTERN VARIABLES -------------------------------*/ 
 /*- LOCAL FUNCTIONS IMPLEMENTATION ------------------------*/ 
 /*- APIs IMPLEMENTATION -----------------------------------*/
 
 ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	switch(Timer_cfg->Timer_CH_NO){
 		case TIMER_CH0:
 			/*zero all bits & registers*/
@@ -160,7 +160,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 					SET_MASK(TCCR0,T0_CounterFallingMod);
 				break;
 				default:
-				fun_status = NOK;
+				u8_fun_status = NOK;
 				break;
 			}
 			/*check for valid prescaler*/
@@ -173,10 +173,10 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 				case TIMER_PRESCALER_256:
 				case TIMER_PRESCALER_1024:
 					/*valid prescaler*/
-					genu_timer0prescaler	=	Timer_cfg->Timer_Prescaler;
+					gu8_timer0prescaler	=	Timer_cfg->Timer_Prescaler;
 				break;
 				default:
-					fun_status = NOK;
+					u8_fun_status = NOK;
 				break;
 			}
 			switch(Timer_cfg->Timer_Polling_Or_Interrupt)
@@ -188,7 +188,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 					SET_MASK(TIMSK,T0_INTERRUPT_NORMAL);
 				break;
 				default:
-				fun_status = NOK;
+				u8_fun_status = NOK;
 				break;
 			}
 		break;
@@ -239,7 +239,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 					SET_MASK(TCCR1,T1_CounterFallingMod);
 				break;
 				default:
-					fun_status = NOK;
+					u8_fun_status = NOK;
 				break;
 			}
 				switch(Timer_cfg->Timer_Prescaler)
@@ -250,10 +250,10 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 					case TIMER_PRESCALER_64:
 					case TIMER_PRESCALER_256:
 					case TIMER_PRESCALER_1024:
-						genu_timer1prescaler	=	Timer_cfg->Timer_Prescaler;
+						gu8_timer1prescaler	=	Timer_cfg->Timer_Prescaler;
 					break;
 					default:
-						fun_status = NOK;
+						u8_fun_status = NOK;
 					break;
 				}
 				switch(Timer_cfg->Timer_Polling_Or_Interrupt)
@@ -298,7 +298,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 					SET_BIT(ASSR,AS2_BIT);
 				break;
 			    default:
-					fun_status = NOK;
+					u8_fun_status = NOK;
 				break;
 			}
 				switch(Timer_cfg->Timer_Prescaler)
@@ -311,10 +311,10 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 					case TIMER_PRESCALER_128:
 					case TIMER_PRESCALER_256:
 					case TIMER_PRESCALER_1024:
-						genu_timer2prescaler	=	Timer_cfg->Timer_Prescaler;
+						gu8_timer2prescaler	=	Timer_cfg->Timer_Prescaler;
 					break;
 					default:
-						fun_status = NOK;
+						u8_fun_status = NOK;
 					break;
 				}
 				switch(Timer_cfg->Timer_Polling_Or_Interrupt)
@@ -334,25 +334,25 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 	}
 
 
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	switch(Timer_CH_NO)
 	{
 		case TIMER_CH0:
 			if(Timer_Count > TIMER0_RESLUTION)
 			{
-				fun_status = NOK;
+				u8_fun_status = NOK;
 			}
 			else
 			{
 				/*set TCNT VALUE, SET PRESCALER TO START*/
 				TCNT0 = Timer_Count;
 				//CLEAR_MASK(TCCR0,TIMER0_PRESCALER_CLEAR_MASK);
-				switch(genu_timer0prescaler)
+				switch(gu8_timer0prescaler)
 				{
 					case TIMER_NO_CLOCK:
 						SET_MASK(TCCR0,T0_NO_CLOCK);
@@ -373,7 +373,7 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 						SET_MASK(TCCR0,T0_PRESCALER_1024);
 					break;
 					default:
-						fun_status = NOK;
+						u8_fun_status = NOK;
 					break;
 				}
 			}
@@ -381,14 +381,14 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 		case TIMER_CH1:
 			if(Timer_Count > TIMER1_RESLUTION)
 			{
-				fun_status = NOK;
+				u8_fun_status = NOK;
 			}
 			else
 			{
 				/*set TCNT VALUE, SET PRESCALER TO START*/
 				TCNT1 = Timer_Count;
 				CLEAR_MASK(TCCR1,TIMER1_PRESCALER_CLEAR_MASK);
-				switch(genu_timer1prescaler)
+				switch(gu8_timer1prescaler)
 				{
 					case TIMER_NO_CLOCK:
 						SET_MASK(TCCR1,T1_NO_CLOCK);
@@ -409,7 +409,7 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 						SET_MASK(TCCR1,T1_PRESCALER_1024);
 					break;
 					default:
-						fun_status = NOK;
+						u8_fun_status = NOK;
 					break;
 				}		
 		}
@@ -417,14 +417,14 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 		case TIMER_CH2:
 			if(Timer_Count > TIMER2_RESLUTION)
 			{
-				fun_status = NOK;
+				u8_fun_status = NOK;
 			}
 			else
 			{
 				/*set TCNT VALUE, SET PRESCALER TO START*/
 				TCNT2 = Timer_Count;
 				//CLEAR_MASK(TCCR2,TIMER2_PRESCALER_CLEAR_MASK);
-				switch(genu_timer2prescaler)
+				switch(gu8_timer2prescaler)
 				{
 					case TIMER_NO_CLOCK:
 						SET_MASK(TCCR2,T2_NO_CLOCK);
@@ -451,19 +451,19 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 						SET_MASK(TCCR2,T2_PRESCALER_1024);
 					break;
 					default:
-						fun_status = NOK;
+						u8_fun_status = NOK;
 					break;
 				}
 			}
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 
 ERROR_STATUS Timer_Stop(uint8_t Timer_CH_NO)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	switch(Timer_CH_NO)
 	{
 		case TIMER_CH0:
@@ -476,15 +476,15 @@ ERROR_STATUS Timer_Stop(uint8_t Timer_CH_NO)
 			CLEAR_MASK(TCCR2,TIMER2_PRESCALER_CLEAR_MASK);
 		break;
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Timer_GetStatus(uint8_t Timer_CH_NO, uint8_t* Data)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	switch(Timer_CH_NO)
 	{
 		case TIMER_CH0:
@@ -497,15 +497,15 @@ ERROR_STATUS Timer_GetStatus(uint8_t Timer_CH_NO, uint8_t* Data)
 			*Data = BIT_IS_SET(TIMSK,TOV2_BIT) ? TRUE : FALSE;
 		break;
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
 }
 
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	switch(Timer_CH_NO)
 	{
 		case TIMER_CH0:
@@ -518,8 +518,8 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 			*Data = TCNT2;
 		break;
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 		break;
 	}
-	return fun_status;
+	return u8_fun_status;
 }

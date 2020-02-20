@@ -10,19 +10,19 @@ static uint8_t gu8_firstTime = TRUE;
 
 ERROR_STATUS Steering_Init(void)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	/*Motor 1 init*/
-	fun_status = Motor_Init(MOTOR_1);
-	fun_status = Motor_Direction(MOTOR_1,MOTOR_FORWARD);
+	u8_fun_status = Motor_Init(MOTOR_1);
+	u8_fun_status = Motor_Direction(MOTOR_1,MOTOR_FORWARD);
 	/*Motor 2 init*/
-	fun_status = Motor_Init(MOTOR_2);
-	fun_status = Motor_Direction(MOTOR_2,MOTOR_FORWARD);
-	return fun_status;
+	u8_fun_status = Motor_Init(MOTOR_2);
+	u8_fun_status = Motor_Direction(MOTOR_2,MOTOR_FORWARD);
+	return u8_fun_status;
 }
 
 ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 {
-	uint8_t fun_status = OK;
+	uint8_t u8_fun_status = OK;
 	if(gu8_firstTime)
 	{
 		gu8_firstTime = FALSE;
@@ -59,9 +59,9 @@ ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 			Motor_Direction(MOTOR_2,MOTOR_BACKWARD);
 		break;
 		default:
-			fun_status = NOK;
+			u8_fun_status = NOK;
 		break;
 	}
 	
-	return fun_status;
+	return u8_fun_status;
 }

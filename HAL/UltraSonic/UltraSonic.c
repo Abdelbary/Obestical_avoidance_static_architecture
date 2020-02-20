@@ -13,6 +13,7 @@
 #define	SHIFT_DIVIDE_BY_2						1
 #define TICKS_FOR_ONE_ULTRA_SONIC_MICRO_SEC		58.0
 #define TEN_DELAY								10
+
 ERROR_STATUS Us_Init(void)
 {
 	

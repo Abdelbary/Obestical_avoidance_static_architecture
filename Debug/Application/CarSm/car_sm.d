@@ -35,13 +35,7 @@ Application/CarSm/car_sm.d Application/CarSm/car_sm.o: \
  ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h \
  ../Application/CarSm/../../HAL/UltraSonic/ultraSonic_cfg.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../MCAL/registers.h \
- ../Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h
+ ../Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h
 
 ../Application/CarSm/car_sm.h:
 
@@ -116,15 +110,3 @@ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
 ../Application/CarSm/../../HAL/UltraSonic/../../MCAL/registers.h:
 
 ../Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:

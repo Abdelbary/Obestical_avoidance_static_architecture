@@ -12,9 +12,12 @@
 /************************************************************************/
 /*                   typedefs for standard types                        */
 /************************************************************************/
+#ifndef GCC
+#define F_CPU 16000000UL
+#include <util/delay.h>
+#endif
 
 #define NULL	((void *)0)
-#define F_CPU 16000000UL
 typedef unsigned char uint8_t;
 typedef unsigned int uint16_t;
 typedef unsigned long int uint32_t;

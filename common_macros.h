@@ -10,8 +10,8 @@
 #define CMMON_MACROS_H_
 #include "std_types.h"
 
-#define  OK		   1
-#define	 NOK	  -1
+#define  OK		  1
+#define	 NOK	  0
 #define  ZERO     0
 #define	 ONE	  1
 #define SET_BIT(number,bit)			((number)|=((1)<<(bit)))

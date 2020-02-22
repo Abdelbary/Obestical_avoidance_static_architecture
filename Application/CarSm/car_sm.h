@@ -14,7 +14,6 @@
 #include "../../std_types.h"
 #include "../Steering/Steering.h"
 #include "../../HAL/UltraSonic/ultraSonic.h"
-#include <util/delay.h>
 
 /*************************************************************/
 /*                     FUNCTIONS DECLARATION                 */

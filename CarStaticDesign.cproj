@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -40,6 +40,34 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>custom</avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E9502</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions>
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
+    <avrtoolinterface />
+    <custom>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">custom</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -186,6 +214,18 @@
     <Compile Include="SWICU\SWICU.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Test\Motor_test\Motor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\Motor_test\Motor_test.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\Us_test\UltraSonic_Test.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\Us_test\UltraSonic_test.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\CarSm" />
@@ -198,7 +238,15 @@
     <Folder Include="MCAL\Timers" />
     <Folder Include="HAL" />
     <Folder Include="Application" />
+    <Folder Include="Test" />
     <Folder Include="SWICU\" />
+    <Folder Include="Test\Motor_test" />
+    <Folder Include="Test\Us_test" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Test\Us_test\TestCases.txt">
+      <SubType>compile</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

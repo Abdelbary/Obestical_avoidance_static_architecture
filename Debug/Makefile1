@@ -1,0 +1,15 @@
+make_exe: car_sm.c Steering.c Motor.c ultraSonic.c main.c DIO.c PWM.c Timers.c SWICU.c
+     gcc -o \
+Application/CarSm/car_sm.o \
+Application/Steering/Steering.o \
+HAL/Motor/Motor.o \
+HAL/UltraSonic/ultraSonic.o \
+main.o \
+MCAL/DIO/DIO.o \
+MCAL/PWM/PWM.o \
+MCAL/Timers/Timers.o \
+SWICU/SWICU.o \
+-I
+
+
+gcc -o  Application/CarSm/car_sm.o Application/Steering/Steering.o HAL/Motor/Motor.o HAL/UltraSonic/ultraSonic.o main.o MCAL/DIO/DIO.o  MCAL/PWM/PWM.o  MCAL/Timers/Timers.o  SWICU/SWICU.o 

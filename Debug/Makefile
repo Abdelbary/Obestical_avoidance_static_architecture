@@ -43,7 +43,10 @@ SUBDIRS :=  \
 ../MCAL/Timers \
 ../HAL \
 ../Application \
-../SWICU/
+../Test \
+../SWICU/ \
+../Test/Motor_test \
+../Test/Us_test
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
@@ -56,7 +59,9 @@ C_SRCS +=  \
 ../MCAL/DIO/DIO.c \
 ../MCAL/PWM/PWM.c \
 ../MCAL/Timers/Timers.c \
-../SWICU/SWICU.c
+../SWICU/SWICU.c \
+../Test/Motor_test/Motor_test.c \
+../Test/Us_test/UltraSonic_Test.c
 
 
 PREPROCESSING_SRCS += 
@@ -74,7 +79,9 @@ main.o \
 MCAL/DIO/DIO.o \
 MCAL/PWM/PWM.o \
 MCAL/Timers/Timers.o \
-SWICU/SWICU.o
+SWICU/SWICU.o \
+Test/Motor_test/Motor_test.o \
+Test/Us_test/UltraSonic_Test.o
 
 OBJS_AS_ARGS +=  \
 Application/CarSm/car_sm.o \
@@ -85,7 +92,9 @@ main.o \
 MCAL/DIO/DIO.o \
 MCAL/PWM/PWM.o \
 MCAL/Timers/Timers.o \
-SWICU/SWICU.o
+SWICU/SWICU.o \
+Test/Motor_test/Motor_test.o \
+Test/Us_test/UltraSonic_Test.o
 
 C_DEPS +=  \
 Application/CarSm/car_sm.d \
@@ -96,7 +105,9 @@ main.d \
 MCAL/DIO/DIO.d \
 MCAL/PWM/PWM.d \
 MCAL/Timers/Timers.d \
-SWICU/SWICU.d
+SWICU/SWICU.d \
+Test/Motor_test/Motor_test.d \
+Test/Us_test/UltraSonic_Test.d
 
 C_DEPS_AS_ARGS +=  \
 Application/CarSm/car_sm.d \
@@ -107,7 +118,9 @@ main.d \
 MCAL/DIO/DIO.d \
 MCAL/PWM/PWM.d \
 MCAL/Timers/Timers.d \
-SWICU/SWICU.d
+SWICU/SWICU.d \
+Test/Motor_test/Motor_test.d \
+Test/Us_test/UltraSonic_Test.d
 
 OUTPUT_FILE_PATH +=CarStaticDesign.elf
 
@@ -180,6 +193,20 @@ MCAL/Timers/Timers.o: ../MCAL/Timers/Timers.c
 	
 
 SWICU/SWICU.o: ../SWICU/SWICU.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Test/Motor_test/Motor_test.o: ../Test/Motor_test/Motor_test.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Test/Us_test/UltraSonic_Test.o: ../Test/Us_test/UltraSonic_Test.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

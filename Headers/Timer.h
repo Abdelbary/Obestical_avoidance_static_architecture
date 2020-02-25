@@ -81,7 +81,8 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg);
  * Description: This function strats the needed timer.
  * 							
  */
-ERROR_STATUS Timer_Start(uint8 Timer_CH_NO, uint16 Timer_Count);
+ERROR_STATUS 
+(uint8 Timer_CH_NO, uint16 Timer_Count);
 
 /**
  * Input: 

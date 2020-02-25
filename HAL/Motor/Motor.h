@@ -14,6 +14,7 @@
 #include "MotorConfig.h"
 #include "../../MCAL/DIO/DIO.h"
 #include "../../MCAL/PWM/PWM.h"
+#include "../../ServiceLayer/Error_Handler/SystemErrors.h"
 
 /*********************************************
  *				Defines  					 *

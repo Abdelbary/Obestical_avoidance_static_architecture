@@ -19,6 +19,7 @@
 #include "../../SWICU/SWICU.h"
 #include "ultraSonic_cfg.h"
 #include "../../MCAL//DIO/DIO.h"
+#include "../../ServiceLayer/Error_Handler/SystemErrors.h"
 
 /************************************************************************/
 /*				   functions' prototypes	                            */

@@ -42,7 +42,7 @@ ERROR_STATUS Car_SM_Init(void)
 	*	1-initiate steering
 	*	2-initiate	ultraSonic 
 	*/
-	uint8_t fun_status = OK;
+	sint16_t fun_status = OK;
 	
 	fun_status = Steering_Init();
 	fun_status = Us_Init();

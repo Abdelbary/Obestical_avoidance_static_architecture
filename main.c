@@ -8,9 +8,36 @@
 #include "Application/Steering/Steering.h"
 #include "Application/CarSm/car_sm.h"
 #include "Test/Us_test/UltraSonic_test.h"
+#include "ServiceLayer/TMU/TMU.h"
+void toogle_led(void)
+{
+	 PORTA_DIR = 0xff;
+	
+	 PORTA_DATA ^= 0xF0;
+}
+
+void toogle_led2(void)
+{
+	PORTA_DIR = 0xff;
+	
+	PORTA_DATA ^= 0x0f;
+}
+
 int main(void)
 {
-	Us_Module_Test();
+	sei();
+	TMU_Init(&TMU_linkCfg);
+	//Us_Module_Test();
+	TMU_start(1,toogle_led,3,PERIODIC);
+	TMU_start(2,toogle_led2,6,PERIODIC);
+	/*TMU_Stop(1);
+	TMU_Stop(2);*/
+	
+	//TMU_DeInit();
+	while (1)
+	{
+		TMU_dispatcher();
+	}
 	/*sei();
 	Car_SM_Init();
 	
@@ -18,5 +45,6 @@ int main(void)
     {
 		Car_SM_Update();
     }*/
+	return 0 ;
 }
 

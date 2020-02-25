@@ -28,6 +28,7 @@ typedef signed long int sint32_t;
 typedef signed long long sint64_t;
 typedef volatile uint8_t* const reg_type8_t;
 typedef volatile uint16_t* const reg_type16_t;
+typedef sint16_t ERROR_STATUS;
 
 
 /************************************************************************/

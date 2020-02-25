@@ -19,6 +19,8 @@
 #include "../interrupt.h"
 #include "../MCAL/DIO/DIO.h"
 #include "../MCAL/registers.h"
+#include "../ServiceLayer/Error_Handler/SystemErrors.h"
+
 /************************************************************************/
 /*				               Constants                                */
 /************************************************************************/

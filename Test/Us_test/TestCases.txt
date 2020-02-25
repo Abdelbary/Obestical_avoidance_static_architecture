@@ -21,7 +21,7 @@ ICU_init return				ok		ok		nok		nok
 	
 DIO_init return				ok		nok		ok		nok
 
-expected_output 			ok		nok		ok		nok
+expected_output 			ok		nok		nok		nok
 
 
 			-----------------Us_Trigger_TEST----------

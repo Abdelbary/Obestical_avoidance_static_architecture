@@ -13,7 +13,7 @@ static uint8_t gu8_Icu_Init_fun_status;
 static uint8_t gu8_DIO_Init_fun_status;
 static uint8_t gu8_Icu_ReadTime_status;
 static uint8_t gu8_DIO_Write_status;
-static uint8_t gau8_fun_status [] = {OK,NOK}; 
+static uint8_t sau16_fun_status [] = {OK,NOK}; 
 
 #ifndef GCC   /*compiling with avr32-gcc compiler*/
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)__attribute__((weak));
@@ -79,8 +79,8 @@ void US_Init_test(void)
 		fun2stateIndx < FUN_STATUS_COUNT ;
 		fun2stateIndx++)
 		{
-			gu8_Icu_Init_fun_status = gau8_fun_status[fun1stateIndx];
-			gu8_DIO_Init_fun_status = gau8_fun_status[fun2stateIndx];
+			gu8_Icu_Init_fun_status = sau16_fun_status[fun1stateIndx];
+			gu8_DIO_Init_fun_status = sau16_fun_status[fun2stateIndx];
 			Us_init_fun_status = Us_Init();
 			if(Us_init_fun_status == (gu8_Icu_Init_fun_status&&gu8_DIO_Init_fun_status) )
 			printf("testCase %d  Passed.\n",testCaseNumber);
@@ -103,7 +103,7 @@ void Us_Trigger_test(void)
 	fun1stateIndx < FUN_STATUS_COUNT ;
 	fun1stateIndx++)
 	{
-		gu8_DIO_Write_status = gau8_fun_status[fun1stateIndx];
+		gu8_DIO_Write_status = sau16_fun_status[fun1stateIndx];
 		Us_Trigger_fun_status = Us_Trigger();
 		if(Us_Trigger_fun_status == (gu8_DIO_Write_status) )
 		printf("testCase %d  Passed.\n",testCaseNumber);
@@ -133,12 +133,12 @@ void Us_GetDistance_Test(void)
 		paramterStatusIndx < FUN_STATUS_COUNT ;
 		paramterStatusIndx++)
 		{
-			gu8_Icu_ReadTime_status  = gau8_fun_status[fun1stateIndx];
+			gu8_Icu_ReadTime_status  = sau16_fun_status[fun1stateIndx];
 			Us_GetDistance_status = Us_GetDistance(au8_distent_pointer_test[paramterStatusIndx]);
 			if(Us_GetDistance_status == (gu8_Icu_ReadTime_status&& (au8_distent_pointer_test[paramterStatusIndx] !=NULL)) )
-			printf("testCase %d  Passed.\n",testCaseNumber);
+				printf("testCase %d  Passed.\n",testCaseNumber);
 			else
-			printf("testCase %d  Failed.\n",testCaseNumber);
+				printf("testCase %d  Failed.\n",testCaseNumber);
 			testCaseNumber++;
 		}
 	}

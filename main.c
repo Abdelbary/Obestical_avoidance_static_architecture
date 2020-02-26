@@ -60,13 +60,11 @@ int main(void)
 #include "Application/CarSm/car_sm.h"
 #include "Test/Us_test/UltraSonic_test.h"
 #include "ServiceLayer/TMU/TMU.h"
+#include "Test/TMU_test/TMU_test.h"
 
 int main(void)
 {
-	while(1)
-	{
-		
-	}
+	TMU_Init_test();
 	return 0;
 }
 #endif // _DEBUG

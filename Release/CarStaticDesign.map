@@ -51,7 +51,7 @@ c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/..
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
                               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_muluhisi3.o) (__umulhisi3)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(printf.o)
-                              Test/Us_test/UltraSonic_Test.o (printf)
+                              Test/TMU_test/TMU_test.o (printf)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(puts.o)
                               Test/Us_test/UltraSonic_Test.o (puts)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(vfprintf_std.o)
@@ -203,6 +203,31 @@ Discarded input sections
  .text          0x00000000        0x0 Test/TMU_test/TMU_test.o
  .data          0x00000000        0x0 Test/TMU_test/TMU_test.o
  .bss           0x00000000        0x0 Test/TMU_test/TMU_test.o
+ .text.stub_comsumer_fun
+                0x00000000        0x2 Test/TMU_test/TMU_test.o
+ .text.Timer_Init
+                0x00000000        0x8 Test/TMU_test/TMU_test.o
+ .text.Timer_Start
+                0x00000000        0x6 Test/TMU_test/TMU_test.o
+ .text.Timer_DeInit
+                0x00000000        0x6 Test/TMU_test/TMU_test.o
+ .rodata.str1.1
+                0x00000000       0x52 Test/TMU_test/TMU_test.o
+ .rodata        0x00000000        0xe Test/TMU_test/TMU_test.o
+ .text.TMU_Init_test
+                0x00000000      0x222 Test/TMU_test/TMU_test.o
+ .text.TMU_start_test
+                0x00000000       0x68 Test/TMU_test/TMU_test.o
+ .text.TMU_Stop_test
+                0x00000000        0x2 Test/TMU_test/TMU_test.o
+ .text.TMU_dispatcher_test
+                0x00000000       0xca Test/TMU_test/TMU_test.o
+ .text.TMU_DeInit_test
+                0x00000000       0x6c Test/TMU_test/TMU_test.o
+ .rodata.sau16_fun_status
+                0x00000000        0x4 Test/TMU_test/TMU_test.o
+ .bss.gu8_Timer_Init_fun_status
+                0x00000000        0x1 Test/TMU_test/TMU_test.o
  .comment       0x00000000       0x31 Test/TMU_test/TMU_test.o
  .text          0x00000000        0x0 Test/Us_test/UltraSonic_Test.o
  .data          0x00000000        0x0 Test/Us_test/UltraSonic_Test.o
@@ -225,7 +250,7 @@ Discarded input sections
                 0x00000000       0xf8 Test/Us_test/UltraSonic_Test.o
  .text.Us_Module_Test
                 0x00000000       0x14 Test/Us_test/UltraSonic_Test.o
- .rodata.gau8_fun_status
+ .rodata.sau16_fun_status
                 0x00000000        0x2 Test/Us_test/UltraSonic_Test.o
  .bss.gu8_DIO_Write_status
                 0x00000000        0x1 Test/Us_test/UltraSonic_Test.o

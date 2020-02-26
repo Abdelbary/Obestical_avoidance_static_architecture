@@ -199,10 +199,31 @@
     <Compile Include="MCAL\PWM\PWM.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\registers.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MCAL\Timers\Timer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MCAL\Timers\Timers.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\Error_Handler\ErrorHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\Error_Handler\SystemErrors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU_cfg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU_cfg.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="std_types.h">
@@ -218,6 +239,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Test\Motor_test\Motor_test.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\TMU_test\TMU_test.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\TMU_test\TMU_test.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Test\Us_test\UltraSonic_Test.c">
@@ -238,9 +265,13 @@
     <Folder Include="MCAL\Timers" />
     <Folder Include="HAL" />
     <Folder Include="Application" />
+    <Folder Include="ServiceLayer\" />
+    <Folder Include="ServiceLayer\Error_Handler\" />
+    <Folder Include="ServiceLayer\TMU\" />
     <Folder Include="Test" />
     <Folder Include="SWICU\" />
     <Folder Include="Test\Motor_test" />
+    <Folder Include="Test\TMU_test\" />
     <Folder Include="Test\Us_test" />
   </ItemGroup>
   <ItemGroup>

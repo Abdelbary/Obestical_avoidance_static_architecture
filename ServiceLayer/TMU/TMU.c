@@ -231,13 +231,13 @@ ERROR_STATUS TMU_DeInit(void)
 		switch(TMU_Timer_ch)
 		{
 			case TMU_TIMER_CH0:
-				timer_DeInit(TIMER_CH0);
+				Timer_DeInit(TIMER_CH0);
 			break;
 			case TMU_TIMER_CH1:
-				timer_DeInit(TIMER_CH1);			
+				Timer_DeInit(TIMER_CH1);			
 			break;
 			case TMU_TIMER_CH2:
-				timer_DeInit(TIMER_CH2);
+				Timer_DeInit(TIMER_CH2);
 			break;
 		}
 	TMU_Init_flag = FALSE;

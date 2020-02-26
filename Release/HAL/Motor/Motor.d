@@ -13,10 +13,14 @@ HAL/Motor/Motor.d HAL/Motor/Motor.o: ../HAL/Motor/Motor.c \
  ../HAL/Motor/../../MCAL/DIO/../../std_types.h \
  ../HAL/Motor/../../MCAL/DIO/../registers.h \
  ../HAL/Motor/../../MCAL/DIO/../../std_types.h \
+ ../HAL/Motor/../../MCAL/DIO/../../ServiceLayer/Error_Handler/SystemErrors.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
  ../HAL/Motor/../../MCAL/PWM/PWM.h \
  ../HAL/Motor/../../MCAL/PWM/../../common_macros.h \
  ../HAL/Motor/../../MCAL/PWM/../../std_types.h \
- ../HAL/Motor/../../MCAL/PWM/../registers.h
+ ../HAL/Motor/../../MCAL/PWM/../registers.h \
+ ../HAL/Motor/../../MCAL/PWM/../../ServiceLayer/Error_Handler/SystemErrors.h \
+ ../HAL/Motor/../../ServiceLayer/Error_Handler/SystemErrors.h
 
 ../HAL/Motor/motor.h:
 
@@ -50,6 +54,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../HAL/Motor/../../MCAL/DIO/../../std_types.h:
 
+../HAL/Motor/../../MCAL/DIO/../../ServiceLayer/Error_Handler/SystemErrors.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
+
 ../HAL/Motor/../../MCAL/PWM/PWM.h:
 
 ../HAL/Motor/../../MCAL/PWM/../../common_macros.h:
@@ -57,3 +65,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../HAL/Motor/../../MCAL/PWM/../../std_types.h:
 
 ../HAL/Motor/../../MCAL/PWM/../registers.h:
+
+../HAL/Motor/../../MCAL/PWM/../../ServiceLayer/Error_Handler/SystemErrors.h:
+
+../HAL/Motor/../../ServiceLayer/Error_Handler/SystemErrors.h:

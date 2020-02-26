@@ -7,7 +7,10 @@ MCAL/Timers/Timers.d MCAL/Timers/Timers.o: ../MCAL/Timers/Timers.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  ../MCAL/Timers/../registers.h ../MCAL/Timers/../../std_types.h \
- ../MCAL/Timers/../../common_macros.h ../MCAL/Timers/../../std_types.h
+ ../MCAL/Timers/../../common_macros.h ../MCAL/Timers/../../std_types.h \
+ ../MCAL/Timers/../../ServiceLayer/Error_Handler/SystemErrors.h \
+ ../MCAL/Timers/../../ServiceLayer/Error_Handler/..\..\common_macros.h \
+ ../MCAL/Timers/../../interrupt.h ../MCAL/Timers/../../MCAL/registers.h
 
 ../MCAL/Timers/Timer.h:
 
@@ -32,3 +35,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../MCAL/Timers/../../common_macros.h:
 
 ../MCAL/Timers/../../std_types.h:
+
+../MCAL/Timers/../../ServiceLayer/Error_Handler/SystemErrors.h:
+
+../MCAL/Timers/../../ServiceLayer/Error_Handler/..\..\common_macros.h:
+
+../MCAL/Timers/../../interrupt.h:
+
+../MCAL/Timers/../../MCAL/registers.h:

@@ -136,6 +136,6 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data);
  * Description: This function deInit  the needed timer.
  * 							
  */
-ERROR_STATUS timer_DeInit(uint8_t timer_Ch);
+ERROR_STATUS Timer_DeInit(uint8_t timer_Ch);
 
 #endif /* TIMER_H_ */

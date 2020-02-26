@@ -21,10 +21,15 @@ Application/CarSm/car_sm.d Application/CarSm/car_sm.o: \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
  ../Application/CarSm/../Steering/../../HAL/Motor/../../MCAL/PWM/PWM.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h \
+ ../Application/CarSm/../Steering/../../HAL/Motor/../../ServiceLayer/Error_Handler/SystemErrors.h \
+ ../Application/CarSm/../Steering/../../ServiceLayer/Error_Handler/SystemErrors.h \
  ../Application/CarSm/../../HAL/UltraSonic/ultraSonic.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../std_types.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../common_macros.h \
@@ -35,13 +40,17 @@ Application/CarSm/car_sm.d Application/CarSm/car_sm.o: \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../interrupt.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/DIO/DIO.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h \
+ ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../ServiceLayer/Error_Handler/SystemErrors.h \
  ../Application/CarSm/../../HAL/UltraSonic/ultraSonic_cfg.h \
  ../Application/CarSm/../../HAL/UltraSonic/../../MCAL/registers.h \
- ../Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h
+ ../Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h \
+ ../Application/CarSm/../../HAL/UltraSonic/../../ServiceLayer/Error_Handler/SystemErrors.h \
+ ../Application/CarSm/../../ServiceLayer/Error_Handler/SystemErrors.h
 
 ../Application/CarSm/car_sm.h:
 
@@ -87,6 +96,10 @@ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h:
 
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
+
 ../Application/CarSm/../Steering/../../HAL/Motor/../../MCAL/PWM/PWM.h:
 
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
@@ -94,6 +107,12 @@ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h:
+
+../Application/CarSm/../Steering/../../HAL/Motor/../../ServiceLayer/Error_Handler/SystemErrors.h:
+
+../Application/CarSm/../Steering/../../ServiceLayer/Error_Handler/SystemErrors.h:
 
 ../Application/CarSm/../../HAL/UltraSonic/ultraSonic.h:
 
@@ -115,6 +134,8 @@ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\mcal\registers.h:
 
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
 
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h:
+
 ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../interrupt.h:
 
 ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h:
@@ -123,8 +144,14 @@ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
 
 ../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../MCAL/registers.h:
 
+../Application/CarSm/../../HAL/UltraSonic/../../SWICU/../ServiceLayer/Error_Handler/SystemErrors.h:
+
 ../Application/CarSm/../../HAL/UltraSonic/ultraSonic_cfg.h:
 
 ../Application/CarSm/../../HAL/UltraSonic/../../MCAL/registers.h:
 
 ../Application/CarSm/../../HAL/UltraSonic/../../MCAL//DIO/DIO.h:
+
+../Application/CarSm/../../HAL/UltraSonic/../../ServiceLayer/Error_Handler/SystemErrors.h:
+
+../Application/CarSm/../../ServiceLayer/Error_Handler/SystemErrors.h:

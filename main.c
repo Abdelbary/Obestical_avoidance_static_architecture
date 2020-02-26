@@ -9,6 +9,10 @@
 #include "Application/CarSm/car_sm.h"
 #include "Test/Us_test/UltraSonic_test.h"
 #include "ServiceLayer/TMU/TMU.h"
+
+
+/*main program compiled using AVR32-GCC*/
+#ifndef GCC
 void toogle_led(void)
 {
 	 PORTA_DIR = 0xff;
@@ -25,7 +29,7 @@ void toogle_led2(void)
 
 int main(void)
 {
-	sei();
+	//sei();
 	TMU_Init(&TMU_linkCfg);
 	//Us_Module_Test();
 	TMU_start(1,toogle_led,3,PERIODIC);
@@ -47,4 +51,22 @@ int main(void)
     }*/
 	return 0 ;
 }
+#endif
 
+/*for gcc compiler used in unit-testing*/
+#ifdef GCC
+
+#include "Application/Steering/Steering.h"
+#include "Application/CarSm/car_sm.h"
+#include "Test/Us_test/UltraSonic_test.h"
+#include "ServiceLayer/TMU/TMU.h"
+
+int main(void)
+{
+	while(1)
+	{
+		
+	}
+	return 0;
+}
+#endif // _DEBUG

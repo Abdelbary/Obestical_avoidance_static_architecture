@@ -43,9 +43,13 @@ SUBDIRS :=  \
 ../MCAL/Timers \
 ../HAL \
 ../Application \
+../ServiceLayer/ \
+../ServiceLayer/Error_Handler/ \
+../ServiceLayer/TMU/ \
 ../Test \
 ../SWICU/ \
 ../Test/Motor_test \
+../Test/TMU_test/ \
 ../Test/Us_test
 
 
@@ -59,8 +63,13 @@ C_SRCS +=  \
 ../MCAL/DIO/DIO.c \
 ../MCAL/PWM/PWM.c \
 ../MCAL/Timers/Timers.c \
+../ServiceLayer/Error_Handler/ErrorHandler.c \
+../ServiceLayer/TMU/TMU.c \
+../ServiceLayer/TMU/TMU_cfg.c \
+../ServiceLayer/TMU/TMU_pbcfg.c \
 ../SWICU/SWICU.c \
 ../Test/Motor_test/Motor_test.c \
+../Test/TMU_test/TMU_test.c \
 ../Test/Us_test/UltraSonic_Test.c
 
 
@@ -79,8 +88,13 @@ main.o \
 MCAL/DIO/DIO.o \
 MCAL/PWM/PWM.o \
 MCAL/Timers/Timers.o \
+ServiceLayer/Error_Handler/ErrorHandler.o \
+ServiceLayer/TMU/TMU.o \
+ServiceLayer/TMU/TMU_cfg.o \
+ServiceLayer/TMU/TMU_pbcfg.o \
 SWICU/SWICU.o \
 Test/Motor_test/Motor_test.o \
+Test/TMU_test/TMU_test.o \
 Test/Us_test/UltraSonic_Test.o
 
 OBJS_AS_ARGS +=  \
@@ -92,8 +106,13 @@ main.o \
 MCAL/DIO/DIO.o \
 MCAL/PWM/PWM.o \
 MCAL/Timers/Timers.o \
+ServiceLayer/Error_Handler/ErrorHandler.o \
+ServiceLayer/TMU/TMU.o \
+ServiceLayer/TMU/TMU_cfg.o \
+ServiceLayer/TMU/TMU_pbcfg.o \
 SWICU/SWICU.o \
 Test/Motor_test/Motor_test.o \
+Test/TMU_test/TMU_test.o \
 Test/Us_test/UltraSonic_Test.o
 
 C_DEPS +=  \
@@ -105,8 +124,13 @@ main.d \
 MCAL/DIO/DIO.d \
 MCAL/PWM/PWM.d \
 MCAL/Timers/Timers.d \
+ServiceLayer/Error_Handler/ErrorHandler.d \
+ServiceLayer/TMU/TMU.d \
+ServiceLayer/TMU/TMU_cfg.d \
+ServiceLayer/TMU/TMU_pbcfg.d \
 SWICU/SWICU.d \
 Test/Motor_test/Motor_test.d \
+Test/TMU_test/TMU_test.d \
 Test/Us_test/UltraSonic_Test.d
 
 C_DEPS_AS_ARGS +=  \
@@ -118,8 +142,13 @@ main.d \
 MCAL/DIO/DIO.d \
 MCAL/PWM/PWM.d \
 MCAL/Timers/Timers.d \
+ServiceLayer/Error_Handler/ErrorHandler.d \
+ServiceLayer/TMU/TMU.d \
+ServiceLayer/TMU/TMU_cfg.d \
+ServiceLayer/TMU/TMU_pbcfg.d \
 SWICU/SWICU.d \
 Test/Motor_test/Motor_test.d \
+Test/TMU_test/TMU_test.d \
 Test/Us_test/UltraSonic_Test.d
 
 OUTPUT_FILE_PATH +=CarStaticDesign.elf
@@ -192,6 +221,34 @@ MCAL/Timers/Timers.o: ../MCAL/Timers/Timers.c
 	@echo Finished building: $<
 	
 
+ServiceLayer/Error_Handler/ErrorHandler.o: ../ServiceLayer/Error_Handler/ErrorHandler.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+ServiceLayer/TMU/TMU.o: ../ServiceLayer/TMU/TMU.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+ServiceLayer/TMU/TMU_cfg.o: ../ServiceLayer/TMU/TMU_cfg.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+ServiceLayer/TMU/TMU_pbcfg.o: ../ServiceLayer/TMU/TMU_pbcfg.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 SWICU/SWICU.o: ../SWICU/SWICU.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -200,6 +257,13 @@ SWICU/SWICU.o: ../SWICU/SWICU.c
 	
 
 Test/Motor_test/Motor_test.o: ../Test/Motor_test/Motor_test.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Test/TMU_test/TMU_test.o: ../Test/TMU_test/TMU_test.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

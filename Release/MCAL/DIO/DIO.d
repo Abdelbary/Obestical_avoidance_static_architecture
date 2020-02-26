@@ -7,7 +7,9 @@ MCAL/DIO/DIO.d MCAL/DIO/DIO.o: ../MCAL/DIO/DIO.c ../MCAL/DIO/DIO.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  ../MCAL/DIO/../../std_types.h ../MCAL/DIO/../registers.h \
- ../MCAL/DIO/../../std_types.h
+ ../MCAL/DIO/../../std_types.h \
+ ../MCAL/DIO/../../ServiceLayer/Error_Handler/SystemErrors.h \
+ ../MCAL/DIO/../../ServiceLayer/Error_Handler/..\..\common_macros.h
 
 ../MCAL/DIO/DIO.h:
 
@@ -32,3 +34,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../MCAL/DIO/../registers.h:
 
 ../MCAL/DIO/../../std_types.h:
+
+../MCAL/DIO/../../ServiceLayer/Error_Handler/SystemErrors.h:
+
+../MCAL/DIO/../../ServiceLayer/Error_Handler/..\..\common_macros.h:

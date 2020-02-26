@@ -18,10 +18,15 @@ Application/Steering/Steering.d Application/Steering/Steering.o: \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
  ../Application/Steering/../../HAL/Motor/../../MCAL/DIO/../registers.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
  ../Application/Steering/../../HAL/Motor/../../MCAL/PWM/PWM.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h \
  f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h \
- ../Application/Steering/../../HAL/Motor/../../MCAL/PWM/../registers.h
+ ../Application/Steering/../../HAL/Motor/../../MCAL/PWM/../registers.h \
+ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h \
+ ../Application/Steering/../../HAL/Motor/../../ServiceLayer/Error_Handler/SystemErrors.h \
+ ../Application/Steering/../../ServiceLayer/Error_Handler/SystemErrors.h
 
 ../Application/Steering/Steering.h:
 
@@ -61,6 +66,10 @@ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
+
 ../Application/Steering/../../HAL/Motor/../../MCAL/PWM/PWM.h:
 
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
@@ -68,3 +77,9 @@ f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\common_macros.h:
 f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\std_types.h:
 
 ../Application/Steering/../../HAL/Motor/../../MCAL/PWM/../registers.h:
+
+f:\carier\embedded\sprints\carstaticdesign\carstaticdesign\servicelayer\error_handler\systemerrors.h:
+
+../Application/Steering/../../HAL/Motor/../../ServiceLayer/Error_Handler/SystemErrors.h:
+
+../Application/Steering/../../ServiceLayer/Error_Handler/SystemErrors.h:

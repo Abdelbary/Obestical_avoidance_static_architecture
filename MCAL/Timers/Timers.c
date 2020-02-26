@@ -156,7 +156,7 @@ ISR(TIMER0_OVF_vect)
 	TCNT0 = TIMER0_RESLUTION-TIMER0_1MS_PRESCALER256;
 }
 
-ERROR_STATUS timer_DeInit(uint8_t timer_Ch)
+ERROR_STATUS Timer_DeInit(uint8_t timer_Ch)
 {
 	uint8_t u8_fun_status = OK;
 	if(timer_Ch > TIMER_CH2)

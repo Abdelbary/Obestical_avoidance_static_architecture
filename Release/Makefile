@@ -66,7 +66,6 @@ C_SRCS +=  \
 ../ServiceLayer/Error_Handler/ErrorHandler.c \
 ../ServiceLayer/TMU/TMU.c \
 ../ServiceLayer/TMU/TMU_cfg.c \
-../ServiceLayer/TMU/TMU_pbcfg.c \
 ../SWICU/SWICU.c \
 ../Test/Motor_test/Motor_test.c \
 ../Test/TMU_test/TMU_test.c \
@@ -91,7 +90,6 @@ MCAL/Timers/Timers.o \
 ServiceLayer/Error_Handler/ErrorHandler.o \
 ServiceLayer/TMU/TMU.o \
 ServiceLayer/TMU/TMU_cfg.o \
-ServiceLayer/TMU/TMU_pbcfg.o \
 SWICU/SWICU.o \
 Test/Motor_test/Motor_test.o \
 Test/TMU_test/TMU_test.o \
@@ -109,7 +107,6 @@ MCAL/Timers/Timers.o \
 ServiceLayer/Error_Handler/ErrorHandler.o \
 ServiceLayer/TMU/TMU.o \
 ServiceLayer/TMU/TMU_cfg.o \
-ServiceLayer/TMU/TMU_pbcfg.o \
 SWICU/SWICU.o \
 Test/Motor_test/Motor_test.o \
 Test/TMU_test/TMU_test.o \
@@ -127,7 +124,6 @@ MCAL/Timers/Timers.d \
 ServiceLayer/Error_Handler/ErrorHandler.d \
 ServiceLayer/TMU/TMU.d \
 ServiceLayer/TMU/TMU_cfg.d \
-ServiceLayer/TMU/TMU_pbcfg.d \
 SWICU/SWICU.d \
 Test/Motor_test/Motor_test.d \
 Test/TMU_test/TMU_test.d \
@@ -145,7 +141,6 @@ MCAL/Timers/Timers.d \
 ServiceLayer/Error_Handler/ErrorHandler.d \
 ServiceLayer/TMU/TMU.d \
 ServiceLayer/TMU/TMU_cfg.d \
-ServiceLayer/TMU/TMU_pbcfg.d \
 SWICU/SWICU.d \
 Test/Motor_test/Motor_test.d \
 Test/TMU_test/TMU_test.d \
@@ -236,13 +231,6 @@ ServiceLayer/TMU/TMU.o: ../ServiceLayer/TMU/TMU.c
 	
 
 ServiceLayer/TMU/TMU_cfg.o: ../ServiceLayer/TMU/TMU_cfg.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-ServiceLayer/TMU/TMU_pbcfg.o: ../ServiceLayer/TMU/TMU_pbcfg.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

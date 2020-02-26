@@ -165,7 +165,7 @@ Discarded input sections
  .text          0x00000000        0x0 MCAL/Timers/Timers.o
  .data          0x00000000        0x0 MCAL/Timers/Timers.o
  .bss           0x00000000        0x0 MCAL/Timers/Timers.o
- .text.timer_DeInit
+ .text.Timer_DeInit
                 0x00000000       0x90 MCAL/Timers/Timers.o
  .text.Timer_GetStatus
                 0x00000000       0x30 MCAL/Timers/Timers.o
@@ -189,10 +189,6 @@ Discarded input sections
  .text          0x00000000        0x0 ServiceLayer/TMU/TMU_cfg.o
  .data          0x00000000        0x0 ServiceLayer/TMU/TMU_cfg.o
  .bss           0x00000000        0x0 ServiceLayer/TMU/TMU_cfg.o
- .text          0x00000000        0x0 ServiceLayer/TMU/TMU_pbcfg.o
- .data          0x00000000        0x0 ServiceLayer/TMU/TMU_pbcfg.o
- .bss           0x00000000        0x0 ServiceLayer/TMU/TMU_pbcfg.o
- .comment       0x00000000       0x31 ServiceLayer/TMU/TMU_pbcfg.o
  .text          0x00000000        0x0 SWICU/SWICU.o
  .data          0x00000000        0x0 SWICU/SWICU.o
  .bss           0x00000000        0x0 SWICU/SWICU.o
@@ -608,7 +604,6 @@ LOAD MCAL/Timers/Timers.o
 LOAD ServiceLayer/Error_Handler/ErrorHandler.o
 LOAD ServiceLayer/TMU/TMU.o
 LOAD ServiceLayer/TMU/TMU_cfg.o
-LOAD ServiceLayer/TMU/TMU_pbcfg.o
 LOAD SWICU/SWICU.o
 LOAD Test/Motor_test/Motor_test.o
 LOAD Test/TMU_test/TMU_test.o
@@ -722,7 +717,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x730
+.text           0x00000000      0x72e
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega32/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -810,48 +805,48 @@ END GROUP
                 0x000000b0        0xe main.o
                 0x000000b0                toogle_led2
  .text.startup.main
-                0x000000be       0x2c main.o
+                0x000000be       0x2a main.o
                 0x000000be                main
  .text.__vector_11
-                0x000000ea       0x2e MCAL/Timers/Timers.o
-                0x000000ea                __vector_11
+                0x000000e8       0x2e MCAL/Timers/Timers.o
+                0x000000e8                __vector_11
  .text.Timer_Init
-                0x00000118      0x182 MCAL/Timers/Timers.o
-                0x00000118                Timer_Init
+                0x00000116      0x182 MCAL/Timers/Timers.o
+                0x00000116                Timer_Init
  .text.Timer_Start
-                0x0000029a      0x112 MCAL/Timers/Timers.o
-                0x0000029a                Timer_Start
+                0x00000298      0x112 MCAL/Timers/Timers.o
+                0x00000298                Timer_Start
  .text.Timer_Stop
-                0x000003ac       0x2e MCAL/Timers/Timers.o
-                0x000003ac                Timer_Stop
+                0x000003aa       0x2e MCAL/Timers/Timers.o
+                0x000003aa                Timer_Stop
  .text.TMU_Init
-                0x000003da       0x7c ServiceLayer/TMU/TMU.o
-                0x000003da                TMU_Init
+                0x000003d8       0x7c ServiceLayer/TMU/TMU.o
+                0x000003d8                TMU_Init
  .text.TMU_start
-                0x00000456       0xee ServiceLayer/TMU/TMU.o
-                0x00000456                TMU_start
+                0x00000454       0xee ServiceLayer/TMU/TMU.o
+                0x00000454                TMU_start
  .text.TMU_Stop
-                0x00000544       0x70 ServiceLayer/TMU/TMU.o
-                0x00000544                TMU_Stop
+                0x00000542       0x70 ServiceLayer/TMU/TMU.o
+                0x00000542                TMU_Stop
  .text.TMU_dispatcher
-                0x000005b4       0x9c ServiceLayer/TMU/TMU.o
-                0x000005b4                TMU_dispatcher
+                0x000005b2       0x9c ServiceLayer/TMU/TMU.o
+                0x000005b2                TMU_dispatcher
  .text.__vector_3
-                0x00000650       0x88 SWICU/SWICU.o
-                0x00000650                __vector_3
+                0x0000064e       0x88 SWICU/SWICU.o
+                0x0000064e                __vector_3
  .text.__vector_5
-                0x000006d8       0x30 SWICU/SWICU.o
-                0x000006d8                __vector_5
+                0x000006d6       0x30 SWICU/SWICU.o
+                0x000006d6                __vector_5
  .text.libgcc.div
-                0x00000708       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodqi4.o)
-                0x00000708                __udivmodqi4
- .text.libgcc   0x00000720        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_tablejump2.o)
-                0x00000720                __tablejump2__
-                0x0000072c                . = ALIGN (0x2)
+                0x00000706       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodqi4.o)
+                0x00000706                __udivmodqi4
+ .text.libgcc   0x0000071e        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_tablejump2.o)
+                0x0000071e                __tablejump2__
+                0x0000072a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000072c        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x0000072c                _exit
-                0x0000072c                exit
+ .fini9         0x0000072a        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x0000072a                _exit
+                0x0000072a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -870,11 +865,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000072c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000072a        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000730                _etext = .
+                0x0000072e                _etext = .
 
-.data           0x00800060        0x4 load address 0x00000730
+.data           0x00800060        0x4 load address 0x0000072e
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -930,8 +925,8 @@ END GROUP
                 0x008000b6                gu16SwICU_timer2_Overflow_Counts
  *(COMMON)
                 0x008000b8                PROVIDE (__bss_end, .)
-                0x00000730                __data_load_start = LOADADDR (.data)
-                0x00000734                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000072e                __data_load_start = LOADADDR (.data)
+                0x00000732                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x008000b8        0x0
                 [!provide]                PROVIDE (__noinit_start, .)

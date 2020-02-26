@@ -9,6 +9,13 @@
 #ifndef TMU_TEST_H_
 #define TMU_TEST_H_
 
+#include <stdio.h>
+#include "../../common_macros.h"
+#include "../../std_types.h"
+#include "../../HAL/UltraSonic/ultraSonic.h"
+#include "..\..\ServiceLayer\TMU\TMU.h"
+
+
 ERROR_STATUS    TMU_Init_test(gstr_TMU_cfg_t * tmu_cfg);
 ERROR_STATUS	TMU_start_test(uint8_t Id,void (*callB_fun_ptr)(void),uint8_t lap_time,uint8_t type);
 ERROR_STATUS	TMU_Stop_test(uint8_t Id);

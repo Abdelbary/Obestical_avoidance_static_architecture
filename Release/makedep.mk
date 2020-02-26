@@ -24,8 +24,6 @@ ServiceLayer\TMU\TMU.c
 
 ServiceLayer\TMU\TMU_cfg.c
 
-ServiceLayer\TMU\TMU_pbcfg.c
-
 SWICU\SWICU.c
 
 Test\Motor_test\Motor_test.c

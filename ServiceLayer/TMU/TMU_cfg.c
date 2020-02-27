@@ -8,6 +8,6 @@
 
 #include "TMU.h"
 
-gstr_TMU_cfg_t TMU_linkCfg = {TMU_TIMER_CH0,3};
+gstr_TMU_cfg_t TMU_linkCfg = {TMU_TIMER_CH0,ONE};
 
 

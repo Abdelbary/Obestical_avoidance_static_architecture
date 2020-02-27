@@ -64,7 +64,8 @@ int main(void)
 
 int main(void)
 {
-	TMU_Init_test();
+	 TMU_Module_run_test();
+
 	return 0;
 }
 #endif // _DEBUG

@@ -21,6 +21,7 @@ void	TMU_start_test(void);
 void	TMU_Stop_test(void);
 void	TMU_dispatcher_test(void);
 void	TMU_DeInit_test(void);
+void    TMU_Module_run_test(void);
 
 
 #endif /* TMU_TEST_H_ */

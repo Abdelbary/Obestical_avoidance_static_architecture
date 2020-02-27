@@ -7,7 +7,6 @@
 
 #include "TMU.h"
 
-#define MODULE_ERROR_NUM  -100
 #define TAKEN				1
 
 typedef struct TMU_obj_str
@@ -25,7 +24,7 @@ static uint8_t TMU_Init_flag = FALSE;
 static uint8_t TMU_Timer_ch;
 static gstr_TMU_obj gastr_TMU_ObjBuffer[TMU_OBJ_BUFFER_SIZE];
 static sint8_t u8_TMU_objBufferHead = ZERO-ONE;
-static uint8_t taken_Ids[TMU_OBJ_BUFFER_SIZE]; /*mark taken ids*/
+static uint8_t taken_Ids[TMU_OBJ_BUFFER_SIZE+ONE]; /*mark taken ids*/
 
 ERROR_STATUS TMU_Init(gstr_TMU_cfg_t * tmu_cfg)
 {
@@ -38,16 +37,16 @@ ERROR_STATUS TMU_Init(gstr_TMU_cfg_t * tmu_cfg)
 		 ************************************************************************/
 		if (TMU_Init_flag)
 		{
-			fun_error_status = (MODULE_ERROR_NUM+MULTIPLE_INITALIZATION);
+			fun_error_status = (TMU_MODULE_ERROR_NUM+MULTIPLE_INITALIZATION);
 		}
 		else if (tmu_cfg == NULL)
 		{
-			fun_error_status = (MODULE_ERROR_NUM+NULL_PTR_ERROR);
+			fun_error_status = (TMU_MODULE_ERROR_NUM+NULL_PTR_ERROR);
 		}
 		else if (tmu_cfg->tick_reslution > TMU_MAX_TIMER_RESLUTION 
 				|| tmu_cfg->timer_ch > TMU_TIMER_CH2)
 		{
-			fun_error_status = (MODULE_ERROR_NUM+INVALAD_PARAMETER);
+			fun_error_status = (TMU_MODULE_ERROR_NUM+INVALAD_PARAMETER);
 		}
 	}
 	else
@@ -85,20 +84,21 @@ ERROR_STATUS TMU_start(uint8_t Id,void (*callB_fun_ptr)(void),uint8_t lap_time,u
 		|| type > ON_SHOT || TMU_Init_flag == FALSE || taken_Ids[Id] == TAKEN 
 		|| (lap_time%(TMU_linkCfg.tick_reslution)) != ZERO /*lap_time not multiple of reslution*/)
 	{
-		if (callB_fun_ptr == NULL)
+		if ( TMU_Init_flag == FALSE)/*module unintalized*/
 		{
-			s16_fun_error_status = (MODULE_ERROR_NUM+NULL_PTR_ERROR);
+			s16_fun_error_status = (TMU_MODULE_ERROR_NUM+MODULE_NOT_INITALIZED);
+		}
+		else if (callB_fun_ptr == NULL)
+		{
+			s16_fun_error_status = (TMU_MODULE_ERROR_NUM+NULL_PTR_ERROR);
 		}
 		else if(Id > TMU_OBJ_BUFFER_SIZE  ||taken_Ids[Id]  == TAKEN
 				|| type > ON_SHOT  || lap_time > TMU_MAX_LAP_TIME
 				|| (lap_time%(TMU_linkCfg.tick_reslution)))/*invalid parameter*/
 		{
-			s16_fun_error_status = (MODULE_ERROR_NUM+INVALAD_PARAMETER);
+			s16_fun_error_status = (TMU_MODULE_ERROR_NUM+INVALAD_PARAMETER);
 		}
-		else /*uinitialize module error*/
-		{
-			s16_fun_error_status = (MODULE_ERROR_NUM+MODULE_NOT_INITALIZED);
-		}
+		
 	}
 	else
 	{
@@ -131,23 +131,32 @@ ERROR_STATUS TMU_Stop(uint8_t Id)
 {
 	sint16_t s16_fun_error_status = OK;
 	
-	if (Id>TMU_OBJ_BUFFER_SIZE || taken_Ids[Id] == TAKEN)
+	if (TMU_Init_flag == FALSE)
 	{
-		s16_fun_error_status = (MODULE_ERROR_NUM+INVALAD_PARAMETER);
+		s16_fun_error_status = (TMU_MODULE_ERROR_NUM+MODULE_NOT_INITALIZED);
 	}
-	/*
-	*  -loop for element in the buffer until reach head
-	*				- copy header obj to it 
-	*				- decrement header
-	*/
-	for(uint8_t u8_bufferCnt = 0 ; u8_bufferCnt <=u8_TMU_objBufferHead ; u8_bufferCnt++)
+	else if (Id>TMU_OBJ_BUFFER_SIZE  || taken_Ids[Id] != TAKEN)
 	{
-		if(Id == gastr_TMU_ObjBuffer[u8_bufferCnt].Id)
+		s16_fun_error_status = (TMU_MODULE_ERROR_NUM+INVALAD_PARAMETER);
+	}
+	else
+	{
+		/*
+		*  -loop for element in the buffer until reach head
+		*				- copy header obj to it 
+		*				- decrement header
+		*/
+		for(uint8_t u8_bufferCnt = 0 ; u8_bufferCnt <=u8_TMU_objBufferHead ; u8_bufferCnt++)
 		{
-			gastr_TMU_ObjBuffer[u8_bufferCnt] = gastr_TMU_ObjBuffer[u8_TMU_objBufferHead];
-			u8_TMU_objBufferHead--;
-		}
+			if(Id == gastr_TMU_ObjBuffer[u8_bufferCnt].Id)
+			{
+				gastr_TMU_ObjBuffer[u8_bufferCnt] = gastr_TMU_ObjBuffer[u8_TMU_objBufferHead];
+				u8_TMU_objBufferHead--;
+				taken_Ids[Id] = ZERO; /*mark id as not taken*/
+			}
+		}	
 	}
+	
 	
 
 	return s16_fun_error_status;
@@ -159,55 +168,65 @@ ERROR_STATUS TMU_Stop(uint8_t Id)
 ERROR_STATUS	TMU_dispatcher(void)
 {
 	sint16_t s16_fun_error_status = OK;
-	static uint8_t current_ticks = ZERO;
-	static uint8_t new_tick_flag = FALSE;
-	/*
-	*	-check for new time tick
-	*	-if true loop throw the TMU OBJ Buffer
-	*	-increment current ticks 
-	*	-check if the current ticks == tick time if so call the CBF
-	*	-keep going until finish with all obj in TMU buffer
-	*/
-	
-	/*	check for new time tick
-	*	for each timer tick increase current tick and make timer0_MS_flag false
-	*	if current tick == lap_time
-	*		-zero current tick
-	*		-fire new_tick_flag
-	*/
-	if (timer0_MS_flag)
+
+	if (TMU_Init_flag == FALSE)
 	{
-		timer0_MS_flag = FALSE;
-		current_ticks++;
-		if (current_ticks == TMU_linkCfg.tick_reslution)
+		s16_fun_error_status = (TMU_MODULE_ERROR_NUM+MODULE_NOT_INITALIZED);
+	}
+	else
+	{
+		static uint8_t current_ticks = ZERO;
+		static uint8_t new_tick_flag = FALSE;
+	
+		/*
+		*	-check for new time tick
+		*	-if true loop throw the TMU OBJ Buffer
+		*	-increment current ticks 
+		*	-check if the current ticks == tick time if so call the CBF
+		*	-keep going until finish with all obj in TMU buffer
+		*/
+	
+		/*	check for new time tick
+		*	for each timer tick increase current tick and make timer0_MS_flag false
+		*	if current tick == lap_time
+		*		-zero current tick
+		*		-fire new_tick_flag
+		*/
+		if (timer0_MS_flag)
 		{
-			current_ticks = ZERO;
-			new_tick_flag = TRUE;
+			timer0_MS_flag = FALSE;
+			current_ticks++;
+			if (current_ticks == TMU_linkCfg.tick_reslution)
+			{
+				current_ticks = ZERO;
+				new_tick_flag = TRUE;
+			}
 		}
+	
+		if(new_tick_flag)
+		{
+			new_tick_flag = FALSE;
+			for(uint8_t bufferCnt = 0 ; bufferCnt <=u8_TMU_objBufferHead ; bufferCnt++)
+			{
+				(gastr_TMU_ObjBuffer[bufferCnt].current_ticks)++;
+				/*check for CBF call time*/
+				if((gastr_TMU_ObjBuffer[bufferCnt].current_ticks)==(gastr_TMU_ObjBuffer[bufferCnt].fire_tick))
+					{
+						gastr_TMU_ObjBuffer[bufferCnt].current_ticks = ZERO;
+						gastr_TMU_ObjBuffer[bufferCnt].callB_fun();
+					
+						/*handle one_shot functions*/
+						if (gastr_TMU_ObjBuffer[bufferCnt].type == ON_SHOT)
+						{
+							TMU_Stop(gastr_TMU_ObjBuffer[bufferCnt].Id);
+						}
+
+					}
+			}
+		 }
+
 	}
 	
-	if(new_tick_flag)
-	{
-		new_tick_flag = FALSE;
-		for(uint8_t bufferCnt = 0 ; bufferCnt <=u8_TMU_objBufferHead ; bufferCnt++)
-		{
-			(gastr_TMU_ObjBuffer[bufferCnt].current_ticks)++;
-			/*check for CBF call time*/
-			if((gastr_TMU_ObjBuffer[bufferCnt].current_ticks)==(gastr_TMU_ObjBuffer[bufferCnt].fire_tick))
-				{
-					gastr_TMU_ObjBuffer[bufferCnt].current_ticks = ZERO;
-					gastr_TMU_ObjBuffer[bufferCnt].callB_fun();
-					
-					/*handle one_shot functions*/
-					if (gastr_TMU_ObjBuffer[bufferCnt].type == ON_SHOT)
-					{
-						TMU_Stop(gastr_TMU_ObjBuffer[bufferCnt].Id);
-					}
-
-				}
-		}
-	 }
-
 	return s16_fun_error_status;
 }
 
@@ -219,30 +238,40 @@ ERROR_STATUS TMU_DeInit(void)
 	*	1-deinit timer
 	*	2-set TMU_init_flag to zero
 	*/
-	sint16_t s16_fun_error_status = TRUE;
+	sint16_t s16_fun_error_status = OK;
 	
 	if(TMU_Init_flag == FALSE)
 	{
 		/*report error*/
-		s16_fun_error_status = (MODULE_ERROR_NUM+MODULE_NOT_INITALIZED);
+		s16_fun_error_status = (TMU_MODULE_ERROR_NUM+MODULE_NOT_INITALIZED);
 	}
-	else
+
+	/*do deinit procedure anyway*/
+	uint8_t u8_counter = 0;
+	switch(TMU_Timer_ch)
 	{
-		switch(TMU_Timer_ch)
-		{
-			case TMU_TIMER_CH0:
-				Timer_DeInit(TIMER_CH0);
-			break;
-			case TMU_TIMER_CH1:
-				Timer_DeInit(TIMER_CH1);			
-			break;
-			case TMU_TIMER_CH2:
-				Timer_DeInit(TIMER_CH2);
-			break;
-		}
+		case TMU_TIMER_CH0:
+		Timer_DeInit(TIMER_CH0);
+		break;
+		case TMU_TIMER_CH1:
+		Timer_DeInit(TIMER_CH1);
+		break;
+		case TMU_TIMER_CH2:
+		Timer_DeInit(TIMER_CH2);
+		break;
+	}
 	TMU_Init_flag = FALSE;
 	u8_TMU_objBufferHead = ZERO-ONE;
+		
+	/*free taken ids*/
+	for (;u8_counter <= TMU_OBJ_BUFFER_SIZE ; u8_counter++)
+	{
+		taken_Ids[u8_counter] = ZERO;
 	}
+	/*set default paramter*/
+	TMU_linkCfg.tick_reslution = ONE;
+	TMU_linkCfg.timer_ch = TMU_TIMER_CH0;
+	
 	return s16_fun_error_status;
 }
 

@@ -14,7 +14,7 @@
 #include "../../MCAL/Communication/UART/uart.h"
 
 
-typedef void(*BCM_UserNotifier)(void);
+typedef void(*BCM_UserNotifier)(ERROR_STATUS status);
 
 
 /*define your chanals here*/
@@ -27,7 +27,9 @@ typedef void(*BCM_UserNotifier)(void);
 /*use these values for mod in bcmTask_cfg*/
 #define BCM_SENDER			0
 #define BCM_RECIVER			1
-#define BCM_SEND_RECIVE		2
+//#define BCM_SEND_RECIVE		2
+
+#define	BCM_MODES			2 
 
 typedef struct gstr_BCM_cfg{
 	uint8_t chanal;		/*BCM_UART_CHANAL ,BCM_SPI_CHANAL,BCM_I2C_CHANAL*/

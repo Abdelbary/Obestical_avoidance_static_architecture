@@ -10,7 +10,7 @@
 #define BCM_CFG_H_
 
 
-#define MAX_TASK_NUM	10
+#define MAX_TASK_NUM	3
 #define BCM_MODULE_ERR	-200
-#define BCM_ID			20
+#define BCM_SPI_ID			20
 #endif /* BCM_CFG_H_ */

@@ -123,6 +123,7 @@ int main(void)
 	{
 	/*	SPDR = 0XFF;
 	_delay_ms(10);*/
+	BCM_TX_dispatcher();
 	}
 	return 0 ;
 }

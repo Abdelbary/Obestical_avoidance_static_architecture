@@ -10,7 +10,7 @@
 #define CMMON_MACROS_H_
 #include "std_types.h"
 
-
+#define FCPU	  16000000UL
 #define  ZERO     0
 #define	 ONE	  1
 #define SET_BIT(number,bit)			((number)|=((1)<<(bit)))

@@ -44,6 +44,8 @@ typedef sint16_t ERROR_STATUS;
 #define LOW  0		// defines LOW value for a bit
 #define HIGH 0xFF	// defines HIGH value for a bit
 
+#define  LOCK    1
+#define  UNLOCK  0
 
 
 #endif /* STD_TYPES_H_ */

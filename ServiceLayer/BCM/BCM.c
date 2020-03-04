@@ -52,7 +52,7 @@ static void BCM_spiSentCBF(void)
 	uint8_t loop_counter = ZERO;
 	do 
 	{
-			state = (g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx]->u8_taskStatus);
+			state = (g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx].u8_taskStatus);
 			u8_SPI_TaskIndx++;
 			u8_SPI_TaskIndx = (u8_SPI_TaskIndx%(gas8_init_chanals_stauts[BCM_SPI_CHANAL][BCM_SENDER]));
 			loop_counter++;
@@ -60,11 +60,18 @@ static void BCM_spiSentCBF(void)
 	
 	/*check for status*/
 	/*get data and send it*/
-	uint8_t u8_counter = (g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx]->u8_counter);
-	uint8_t u8_data = (g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx]->bcmTask->buffer[u8_counter]);
-	SPI_sendData(u8_data);
-	/*change state to sending byte*/
-	(g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx]->u8_taskStatus = STATE_SENDING_BYTE);
+	
+	if(state == STATE_SENDING_BYTE)
+	{
+		/*uint8_t u8_counter = (g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx].u8_counter);
+		uint8_t u8_data = (g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx].bcmTask->buffer[u8_counter]);
+		TCNT1L = u8_counter;
+		TCNT1H = u8_SPI_TaskIndx;
+		SPI_sendData(u8_data);*/
+		/*change state to sending byte*/
+		(g2astr_BCM_Tasks[BCM_SPI_CHANAL][BCM_SENDER][u8_SPI_TaskIndx].u8_taskStatus = STATE_SEN_BYTE_COMPLETE);
+	}
+	
 }
 
 static uint8_t bcm_uartSend()
@@ -122,8 +129,6 @@ ERROR_STATUS BCM_init(gstr_BCM_cfg_t* bcm_cfg )
 					case BCM_SENDER:
 					break;
 					case BCM_RECIVER:
-					break;
-					case BCM_SEND_RECIVE:
 					break;
 					default: /*error state*/
 					u8_fun_status = (BCM_MODULE_ERR+INVALAD_PARAMETER);
@@ -186,7 +191,7 @@ ERROR_STATUS BCM_init(gstr_BCM_cfg_t* bcm_cfg )
 ERROR_STATUS BCM_setup(gstr_BCM_Task_cfg_t* str_BCM_TaskCfg)
 {
 	ERROR_STATUS u8_fun_status = OK;
-	
+		
 	if (/*check for errors*/ 0)
 	{
 		/*from check if state*/
@@ -210,7 +215,7 @@ ERROR_STATUS BCM_setup(gstr_BCM_Task_cfg_t* str_BCM_TaskCfg)
 		
 		
 		/*set task in its chanal and its pos*/
-		(g2astr_BCM_Tasks[str_BCM_TaskCfg->chanal][str_taskController.bcmTask->mode][(gas8_init_chanals_stauts[str_BCM_TaskCfg->chanal][str_taskController.bcmTask->mode])]) = &str_taskController;
+		(g2astr_BCM_Tasks[str_BCM_TaskCfg->chanal][str_taskController.bcmTask->mode][(gas8_init_chanals_stauts[str_BCM_TaskCfg->chanal][str_taskController.bcmTask->mode])]) = str_taskController;
 		/*increment number of tasks for this chanal*/
 		(gas8_init_chanals_stauts[str_BCM_TaskCfg->chanal][str_taskController.bcmTask->mode])++;
 		/*lock the buffer*/
@@ -261,19 +266,15 @@ ERROR_STATUS BCM_TX_dispatcher()
 				if((gas8_init_chanals_stauts[u8_BCM_chanalIndx][BCM_SENDER]) != BCM_CHANAL_UNINTALIZED 
 				&& (gas8_init_chanals_stauts[u8_BCM_chanalIndx][BCM_SENDER]) != BCM_CHANAL_NO_TASKS) /*chanal init and task exist*/
 				{
-					/*loop throught tasks in chanal*/
+					/*loop thought tasks in chanal*/
 					uint8_t u8_taskINdxr = ZERO;
 					for (;u8_taskINdxr < (gas8_init_chanals_stauts[u8_BCM_chanalIndx][BCM_SENDER]);u8_taskINdxr++)
 					{
 						/*get state and current task buffer counter and data to send*/
-						uint8_t* state   =&(g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr]->u8_taskStatus);	
-						uint8_t* counter =&(g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr]->u8_counter);
-						uint8_t  bufferSize = (g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr]->bcmTask->size);/*change it to cm fram size*/
-						uint8_t data = ZERO; /*get data if counter didn't reach end of buffer*/
-						if(*counter < g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr]->u8_BCM_framSize)
-							data = g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr]->bcmTask->buffer[*counter];
-						else
-							*state = STATE_FRAM_SEND_COMLETE; /*change state*/
+						uint8_t* state   =&(g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr].u8_taskStatus);	
+						uint8_t* counter =&(g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr].u8_counter);
+						uint8_t  bufferSize = (g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr].bcmTask->size);/*change it to cm fram size*/
+						uint8_t data =  g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr].bcmTask->buffer[*counter]; /*get data if counter didn't reach end of buffer*/
 						switch(u8_BCM_chanalIndx)
 						{
 							/*	-case idle
@@ -291,28 +292,36 @@ ERROR_STATUS BCM_TX_dispatcher()
 							*		-unlock buffer, change state to completed,call back notifier function
 							*/
 							case BCM_SPI_CHANAL:
+							TCNT2 = u8_taskINdxr;
+							TCNT0 = *state;
 								switch(*state)
 								{
 									case STATE_IDLE:
-										
 										SPI_sendData(data);
-										(*counter)++;
+										*state = STATE_SENDING_BYTE;
+										/*(*counter)++;
 										if(*counter ==  bufferSize)
 											*state = STATE_FRAM_SEND_COMLETE;
-										else /*counter < bufferSize*/
-											*state = STATE_SENDING_BYTE;
+										else / *counter < bufferSize* /
+											*state = STATE_SENDING_BYTE;*/
 										
 									break;
 									case STATE_SENDING_BYTE:
 										/*do nothing*/										  
 									break;
 									case STATE_SEN_BYTE_COMPLETE:
-										SPI_sendData(data);
 										(*counter)++;
+										data = g2astr_BCM_Tasks[u8_BCM_chanalIndx][BCM_SENDER][u8_taskINdxr].bcmTask->buffer[*counter];
 										if(*counter ==  bufferSize)
 											*state = STATE_FRAM_SEND_COMLETE;
 										else /*counter < bufferSize*/
+										{
 											*state = STATE_SENDING_BYTE;
+											SPI_sendData(data);
+										}
+									break;
+									case STATE_FRAM_SEND_COMLETE:
+										
 									break;
 								}
 							break;
@@ -321,6 +330,7 @@ ERROR_STATUS BCM_TX_dispatcher()
 							case BCM_I2C_CHANAL:
 							break;
 						}
+					
 					}
 					
 					/*update to next task to serve*/

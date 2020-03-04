@@ -13,7 +13,6 @@
 #include "../../MCAL/Communication/SPI/spi.h"
 #include "../../MCAL/Communication/UART/uart.h"
 
-
 typedef void(*BCM_UserNotifier)(ERROR_STATUS status);
 
 

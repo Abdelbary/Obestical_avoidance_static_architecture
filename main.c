@@ -114,9 +114,9 @@ int main(void)
 	
 	for(uint8_t u8_counter = ZERO ; u8_counter < BUFFER_SIZE ; u8_counter++)
 		buffer[u8_counter] = u8_counter;	
-		
+	buffer[1] = 10;
 	gstr_BCM_Task_cfg_t bcm_task_cfg = {buffer,&lock1,bcm_notifier,
-										BUFFER_SIZE,BCM_SPI_CHANAL,BCM_SENDER};
+										2,BCM_SPI_CHANAL,BCM_SENDER};
 	BCM_setup(&bcm_task_cfg);
 	
 	while(1)

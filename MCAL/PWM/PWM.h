@@ -15,6 +15,8 @@
 #include "../../common_macros.h"
 #include "../../std_types.h"
 #include "../registers.h"
+#include "../../ServiceLayer/Error_Handler/SystemErrors.h"
+
 
 #define PWM_CH0    (0)
 #define PWM_CH1A   (1)

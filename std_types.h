@@ -12,9 +12,12 @@
 /************************************************************************/
 /*                   typedefs for standard types                        */
 /************************************************************************/
+#ifndef GCC
+#define F_CPU 16000000UL
+#include <util/delay.h>
+#endif
 
 #define NULL	((void *)0)
-#define F_CPU 16000000UL
 typedef unsigned char uint8_t;
 typedef unsigned int uint16_t;
 typedef unsigned long int uint32_t;
@@ -25,6 +28,7 @@ typedef signed long int sint32_t;
 typedef signed long long sint64_t;
 typedef volatile uint8_t* const reg_type8_t;
 typedef volatile uint16_t* const reg_type16_t;
+typedef sint16_t ERROR_STATUS;
 
 
 /************************************************************************/
@@ -40,6 +44,8 @@ typedef volatile uint16_t* const reg_type16_t;
 #define LOW  0		// defines LOW value for a bit
 #define HIGH 0xFF	// defines HIGH value for a bit
 
+#define  LOCK    1
+#define  UNLOCK  0
 
 
 #endif /* STD_TYPES_H_ */

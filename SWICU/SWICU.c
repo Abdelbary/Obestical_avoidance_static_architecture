@@ -83,7 +83,7 @@ ISR(INT2_vect)
 	*/
 	PORTA_DIR   = HIGH;
 	
-	Timer_Start(TIMER_CH2,ZERO);
+	Timer_Start(TIMER_CH2,SWICU_TIMER2_RESLUTION);
 	if(gu8SwICU_INT2_vec_enteranceFlag&TRUE)
 	{
 		SwICU_Stop();
@@ -244,7 +244,7 @@ ERROR_STATUS SwICU_Start(void)
 {
 	/*start timer*/
 	uint8_t u8_fun_status = OK;
-	u8_fun_status = Timer_Start(TIMER_CH2,ZERO);
+	u8_fun_status = Timer_Start(TIMER_CH2,SWICU_TIMER2_RESLUTION);
 	return u8_fun_status;
 }
 

@@ -15,6 +15,7 @@
 #include "../../std_types.h"
 #include "../registers.h"
 #include "../../common_macros.h"
+#include "../../ServiceLayer/Error_Handler/SystemErrors.h"
 
 /************************************************************************/
 /*				 DEFINES			        */
@@ -45,6 +46,9 @@
 #define		TIMER_PRESCALER_256				6
 #define		TIMER_PRESCALER_1024			7
 
+
+#define  TIMER0_1MS_PRESCALER256							62
+
 /************************************************************************/
 /*			  Structures Definitions		                            */
 /************************************************************************/
@@ -59,7 +63,7 @@ typedef struct Timer_cfg_s
 }Timer_cfg_s;
 
 
-
+extern volatile uint16_t timer0_MS_flag;
 /************************************************************************/
 /*		         TIMER FUNCTIONS' PROTOTYPES		        */
 /************************************************************************/
@@ -123,7 +127,15 @@ ERROR_STATUS Timer_GetStatus(uint8_t Timer_CH_NO, uint8_t* Data);
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data);
 
 
-
-
+/**
+ * Input: 
+ * 	Timer_CH_NO: The channel number of the timer needed to be stopped.
+ * Output:
+ * In/Out:			
+ * Return: The error status of the function.			
+ * Description: This function deInit  the needed timer.
+ * 							
+ */
+ERROR_STATUS Timer_DeInit(uint8_t timer_Ch);
 
 #endif /* TIMER_H_ */

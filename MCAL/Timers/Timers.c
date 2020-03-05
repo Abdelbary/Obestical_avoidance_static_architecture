@@ -8,7 +8,7 @@
 
 /*- INCLUDES ----------------------------------------------*/
 #include "Timer.h"
-
+#include "../../interrupt.h"
 
 /*- LOCAL MACROS ------------------------------------------*/ 
 
@@ -46,6 +46,8 @@
 #define TIMER0_RESLUTION                255
 #define TIMER2_RESLUTION                255
 #define TIMER1_RESLUTION				65535
+
+#define  TIMER0_MS_OVERFLOW				62
 
 typedef enum En_timer0Mode_t{
 	T0_NORMAL_MODE=0,T0_COMP_MODE=0x08
@@ -129,15 +131,94 @@ typedef enum En_time2Mod_t{
 static uint8_t	 gu8_timer0prescaler;
 static uint8_t	 gu8_timer1prescaler;
 static uint8_t	 gu8_timer2prescaler;
+
 /*- GLOBAL EXTERN VARIABLES -------------------------------*/ 
 /*- LOCAL FUNCTIONS IMPLEMENTATION ------------------------*/ 
 /*- APIs IMPLEMENTATION -----------------------------------*/
 
+volatile static uint16_t gu16SwICU_timer0_Overflow_Counts = ZERO;
+volatile  uint16_t timer0_MS_flag = FALSE;
+
+ISR(TIMER0_OVF_vect)
+{
+	/*++gu16SwICU_timer0_Overflow_Counts;
+	PORTA_DIR = 0xff;
+	PORTA_DATA ^= 0xff
+	if(gu16SwICU_timer0_Overflow_Counts == TIMER0_MS_OVERFLOW )
+	{
+		timer0_MS_flag = TRUE;
+		gu16SwICU_timer0_Overflow_Counts = ZERO;
+		TCNT0 = HALF_TICKS;
+	}*/
+	/*PORTA_DIR = 0xff;
+	PORTA_DATA ^= 0xff;*/
+	timer0_MS_flag  = TRUE;
+	TCNT0 = TIMER0_RESLUTION-TIMER0_1MS_PRESCALER256;
+}
+
+ERROR_STATUS Timer_DeInit(uint8_t timer_Ch)
+{
+	uint8_t u8_fun_status = OK;
+	if(timer_Ch > TIMER_CH2)
+	{
+		u8_fun_status = NOK;
+	}
+	else
+	{
+		switch(timer_Ch)
+		{
+			case TIMER_CH0:
+				/*timer 0 set as oc interrupte mode */
+				/*zero all bits & registers*/
+				TCCR0   =  ZERO;
+				TCNT0   =  ZERO;
+				CLEAR_BIT(TIMSK,TOIE0_BIT);
+				CLEAR_BIT(TIMSK,OCIE0_BIT);
+				SET_BIT(TIFR,TOV0_BIT);/*inturrept flag bit cleared by writing 1 to it*/
+			break;
+			case TIMER_CH1:
+				/*zero all registers
+				* TCCR1 = TCTN1 = OCR1A = OCR1B = ICR1 = ZERO
+				* TIMSK CLEAR BITS [TICIE1 OCIE1A OCIE1B TOIE1]
+				* TIFR  CLEAR BITS [ICF1 OCF1A OCF1B TOV1]
+				**/
+				TCCR1   =  ZERO;
+				TCNT1   =  ZERO;
+				OCR1A   =  ZERO;
+				OCR1B   =  ZERO;
+				ICR1	=  ZERO;
+	
+				CLEAR_BIT(TIMSK,TICIE1_BIT);
+				CLEAR_BIT(TIMSK,OCIE1A_BIT);
+				CLEAR_BIT(TIMSK,OCIE1B_BIT);
+				CLEAR_BIT(TIMSK,TOIE1_BIT);
+
+				SET_BIT(TIFR,ICF1_BIT);
+				SET_BIT(TIFR,OCF1A_BIT);
+				SET_BIT(TIFR,OCF1B_BIT);
+				SET_BIT(TIFR,TOV1_BIT);
+
+			break;
+			case TIMER_CH2:
+				/*zero all bits & registers*/
+				TCCR2   =  ZERO;
+				TCNT2   =  ZERO;
+				CLEAR_BIT(TIMSK,TOIE2_BIT);
+				CLEAR_BIT(TIMSK,OCIE2_BIT);
+				SET_BIT(TIFR,TOV2_BIT);
+				CLEAR_BIT(ASSR,AS2_BIT);
+			break;
+		}	
+	}
+	
+	return u8_fun_status;
+}
 ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 {
 	uint8_t u8_fun_status = OK;
 	switch(Timer_cfg->Timer_CH_NO){
 		case TIMER_CH0:
+			/*timer 0 set as oc interrupte mode */
 			/*zero all bits & registers*/
 			TCCR0   =  ZERO;
 			TCNT0   =  ZERO;
@@ -148,6 +229,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 			/* timer mode specify timer clk source either internal or 
 			* external clk specified in the prescaler
 			*/
+			SET_MASK(TIMSK,T0_INTERRUPT_NORMAL); /*set timer0 as as int normal mode*/
 			switch(Timer_cfg->Timer_Mode)
 			{
 				case TIMER_MODE:
@@ -185,7 +267,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 					SET_MASK(TIMSK,T0_POLLING);
 				break;
 				case TIMER_INTERRUPT_MODE:
-					SET_MASK(TIMSK,T0_INTERRUPT_NORMAL);
+					SET_MASK(TIMSK,T0_NORMAL_MODE);
 				break;
 				default:
 				u8_fun_status = NOK;
@@ -349,8 +431,8 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 			}
 			else
 			{
-				/*set TCNT VALUE, SET PRESCALER TO START*/
-				TCNT0 = Timer_Count;
+				/*set ocr0 VALUE, SET PRESCALER TO START*/
+				TCNT0 = TIMER0_RESLUTION-Timer_Count;
 				//CLEAR_MASK(TCCR0,TIMER0_PRESCALER_CLEAR_MASK);
 				switch(gu8_timer0prescaler)
 				{
@@ -386,7 +468,7 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 			else
 			{
 				/*set TCNT VALUE, SET PRESCALER TO START*/
-				TCNT1 = Timer_Count;
+				TCNT1 = TIMER1_RESLUTION-Timer_Count;
 				CLEAR_MASK(TCCR1,TIMER1_PRESCALER_CLEAR_MASK);
 				switch(gu8_timer1prescaler)
 				{
@@ -422,7 +504,7 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 			else
 			{
 				/*set TCNT VALUE, SET PRESCALER TO START*/
-				TCNT2 = Timer_Count;
+				TCNT2 = TIMER2_RESLUTION-Timer_Count;
 				//CLEAR_MASK(TCCR2,TIMER2_PRESCALER_CLEAR_MASK);
 				switch(gu8_timer2prescaler)
 				{

@@ -10,8 +10,7 @@
 #define CMMON_MACROS_H_
 #include "std_types.h"
 
-#define  OK		   1
-#define	 NOK	  -1
+#define FCPU	  16000000UL
 #define  ZERO     0
 #define	 ONE	  1
 #define SET_BIT(number,bit)			((number)|=((1)<<(bit)))
@@ -23,7 +22,6 @@
 #define BIT_IS_SET(number,bit)  ((number)&(1<<(bit)))
 #define BIT_IS_CLEARD(number,bit)   (!((number)&(1<<(bit))))
 #define MASK_IS_SET(number,mask)	((number)&(mask))
-typedef uint8_t ERROR_STATUS;
 
 
 #endif /* CMMON_MACROS_H_ */

@@ -15,6 +15,7 @@
 #include "../../std_types.h"
 #include "../../common_macros.h"
 #include "../../HAL/Motor/Motor.h"
+#include "../../ServiceLayer/Error_Handler/SystemErrors.h"
 
 /*
  *  INCLUDE MOTOR.H HERE

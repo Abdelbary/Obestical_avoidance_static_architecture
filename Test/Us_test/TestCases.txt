@@ -1,0 +1,48 @@
+/*
+ * TestCases.h
+ *
+ * Created: 2/22/2020 8:06:25 PM
+ *  Author: mahmo
+ */ 
+
+
+ =========================Us_Module_TEST=======================
+
+          -----------------Us_Init_TEST-------------
+for this function the test cases is to make the mooc fucntions either return OK OR NOK signal and see 
+if the us_init function will pass the signal write, this is the only test case as the function is a void void function.
+
+the us_init calls two function so there is a two mooc function that return OK OR  NOK
+
+testCase					0		1		2		3
+fun							
+
+ICU_init return				ok		ok		nok		nok		
+	
+DIO_init return				ok		nok		ok		nok
+
+expected_output 			ok		nok		nok		nok
+
+
+			-----------------Us_Trigger_TEST----------
+same as previous function but this function only calls one function so there is only one mooc function
+
+testCase					0		1		
+fun							
+
+DIO_Write return			ok		nok		
+
+expected_output 			ok		nok		
+
+		
+		  -----------------Us_GetDistance_TEST-------------
+this function takes a pointer and calls one function [only one mooc function and four test cases]
+
+testCase					0		1		2		3
+fun/parameter							
+
+ICU_init return				ok		ok		nok		nok		
+	
+*distant					N_NULL	NULL	N_NULL  NULL 
+
+expected_output 			ok		nok		ok		nok

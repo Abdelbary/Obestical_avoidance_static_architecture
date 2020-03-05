@@ -11,6 +11,8 @@
 #include "../../common_macros.h"
 #include "../../std_types.h"
 #include "../registers.h"
+#include "../../ServiceLayer/Error_Handler/SystemErrors.h"
+
 /************************************************************************/
 /*						PINS/BITS defines                               */
 /************************************************************************/

@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -40,6 +40,34 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>custom</avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E9502</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions>
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
+    <avrtoolinterface />
+    <custom>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">custom</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -159,6 +187,21 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\Communication\SPI\spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\Communication\SPI\spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\Communication\UART\uart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\Communication\UART\uart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\Communication\UART\uart_cfg.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MCAL\DIO\DIO.c">
       <SubType>compile</SubType>
     </Compile>
@@ -171,10 +214,40 @@
     <Compile Include="MCAL\PWM\PWM.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\registers.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MCAL\Timers\Timer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MCAL\Timers\Timers.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\BCM\BCM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\BCM\BCM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\BCM\BCM_cfg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\Error_Handler\ErrorHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\Error_Handler\SystemErrors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU_cfg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ServiceLayer\TMU\TMU_cfg.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="std_types.h">
@@ -186,6 +259,24 @@
     <Compile Include="SWICU\SWICU.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Test\Motor_test\Motor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\Motor_test\Motor_test.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\TMU_test\TMU_test.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\TMU_test\TMU_test.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\Us_test\UltraSonic_Test.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Test\Us_test\UltraSonic_test.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\CarSm" />
@@ -193,12 +284,31 @@
     <Folder Include="HAL\Motor" />
     <Folder Include="HAL\UltraSonic" />
     <Folder Include="MCAL" />
+    <Folder Include="MCAL\Communication\" />
+    <Folder Include="MCAL\Communication\UART" />
+    <Folder Include="MCAL\Communication\SPI" />
     <Folder Include="MCAL\DIO" />
     <Folder Include="MCAL\PWM" />
     <Folder Include="MCAL\Timers" />
     <Folder Include="HAL" />
     <Folder Include="Application" />
+    <Folder Include="ServiceLayer\" />
+    <Folder Include="ServiceLayer\Error_Handler\" />
+    <Folder Include="ServiceLayer\BCM" />
+    <Folder Include="ServiceLayer\TMU\" />
+    <Folder Include="Test" />
     <Folder Include="SWICU\" />
+    <Folder Include="Test\Motor_test" />
+    <Folder Include="Test\TMU_test\" />
+    <Folder Include="Test\Us_test" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Test\TMU_test\testOutput.txt">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Test\Us_test\TestCases.txt">
+      <SubType>compile</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

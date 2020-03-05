@@ -96,7 +96,7 @@ void UartTX_Enable()
 	
 }
 
-uint8_t UDRStatus(void)
+uint8_t UDR_ReadyStatus(void)
 {
 	return u8_UDREmptyFlag;
 }

@@ -62,6 +62,7 @@ SPI_CBF						spi_cbf;
 
 
 ERROR_STATUS SPI_init(gstrSPI_spi_satus_t * spi_status);
+ERROR_STATUS spi_enable();
 ERROR_STATUS SPI_sendData(const uint8_t data);
 ERROR_STATUS SPI_getData(uint8_t* value);
 

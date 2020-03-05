@@ -13,11 +13,19 @@
 #include "MCAL/Communication/SPI/spi.h"
 #include "ServiceLayer/BCM/BCM.h"
 
-#define BUFFER_SIZE	100
 /*main program compiled using AVR32-GCC*/
 #ifndef GCC
+#define  NEW_LINE	0x0D
+#define BUFFER_SIZE	100
 static	uint8_t buffer[BUFFER_SIZE];
 static	uint8_t lock1 = UNLOCK;
+uint8_t u8_counter = ZERO;
+
+void bcm_ReciveNotifier(ERROR_STATUS status);
+void bcm_SenderNotifier(ERROR_STATUS status);
+gstr_BCM_Task_cfg_t gstr_BCM_ReciverTask_cfg = {buffer,&lock1,bcm_ReciveNotifier,ZERO,BCM_SPI_CHANAL,BCM_RECIVER};
+gstr_BCM_Task_cfg_t gstr_BCM_SenderTask_cfg = {buffer,&lock1,bcm_SenderNotifier,ZERO,BCM_SPI_CHANAL,BCM_SENDER};
+
 void toogle_led(void)
 {
 	 PORTA_DIR = 0xff;
@@ -32,34 +40,123 @@ void toogle_led2(void)
 	PORTA_DATA ^= 0x0f;
 }
 static uint8_t shared;
-uint8_t sendTX(void)
+
+uint8_t BCM_Reciver_sendTX(void)
 {
 	return shared;
 }
 
-void reciveRX(uint8_t u8_sentData)
+void BCM_Reciver_reciveRX(uint8_t u8_sentData)
 {
 	shared = u8_sentData+1;
 	UartTX_Enable();
 }
 
-void spi(void)
+uint8_t BCM_Sender_sendTX(void)
 {
-	static char i=0;
-	TCNT2 = SPDR;
-	SPI_sendData(i);
-	i++;
+	return shared;
 }
 
-void bcm_notifier(ERROR_STATUS status)
+void BCM_Sender_reciveRX(uint8_t u8_sentData)
+{
+	/*shared = u8_sentData+1;
+	UartTX_Enable();*/
+	/*
+	*	-send recived data to buffer
+	*	-increment counter
+	*/
+
+	if (u8_sentData == NEW_LINE)
+	{
+		gstr_BCM_SenderTask_cfg.size = u8_counter;
+		u8_counter = ZERO;
+		BCM_setup(&gstr_BCM_SenderTask_cfg);
+	}
+	else
+	{
+		buffer[u8_counter]= u8_sentData;
+		u8_counter++;
+	}
+	
+
+}
+
+
+/*
+void spiCBF(void)
+{
+	static char i=0;
+	SPI_sendData(i);
+	i++;
+}*/
+
+void bcm_ReciveNotifier(ERROR_STATUS status)
+{
+	/*resetup for next round*/
+	PORTA_DIR	 = 0xff;
+	PORTA_DATA	 ^= 0xff;
+	uint8_t u8_count = ZERO;
+	/*send bytes throught u uart*/
+	for (;u8_count < status ; u8_count++)
+	{
+		while(UDR_ReadyStatus() != TRUE);
+		shared = buffer[u8_count];
+		UartTX_Enable();
+	}
+		while(UDR_ReadyStatus() != TRUE);
+		shared = NEW_LINE;
+		UartTX_Enable();
+	BCM_setup(&gstr_BCM_ReciverTask_cfg);
+}
+
+void bcm_SenderNotifier(ERROR_STATUS status)
 {
 	
 }
+
+void BCM_Sender(void)
+{
+	gstr_BCM_cfg_t bcm_cfg={BCM_SPI_CHANAL,BCM_SENDER};
+	BCM_init(&bcm_cfg);
+	
+    gstr_uart_cfg_t uart_cfg = {BCM_Sender_sendTX,BCM_Sender_reciveRX};
+	Uart_Init(&uart_cfg);
+	sei();
+	
+
+
+	while(1)
+	{
+	/*	SPDR = 0XFF;
+	_delay_ms(10);*/
+		BCM_TX_dispatcher();
+
+	}
+}
+
+void BCM_Rceiver(void)
+{
+	gstr_uart_cfg_t uart_cfg = {BCM_Reciver_sendTX,BCM_Reciver_reciveRX};
+	Uart_Init(&uart_cfg);
+	
+	gstr_BCM_cfg_t bcm_cfg={BCM_SPI_CHANAL,BCM_RECIVER};
+	BCM_init(&bcm_cfg);	
+
+	BCM_setup(&gstr_BCM_ReciverTask_cfg);
+	sei();
+
+	while(1)
+	{
+	/*	SPDR = 0XFF;
+	_delay_ms(10);*/
+	BCM_RX_dispatcher();
+	}
+}
 int main(void)
 {
-	//gstr_uart_cfg_t uart_cfg = {sendTX,reciveRX};
-	//Uart_Init(&uart_cfg);
-	sei();
+/*
+	gstr_uart_cfg_t uart_cfg = {sendTX,reciveRX};
+	Uart_Init(&uart_cfg);*/
 	/*UartWriteTx('a');
 	while(1)
 	{
@@ -108,23 +205,8 @@ int main(void)
 	
 	SPI_sendData(0);
 */
-	
-	gstr_BCM_cfg_t bcm_cfg={BCM_SPI_CHANAL,BCM_SENDER};
-	BCM_init(&bcm_cfg);	
-	
-	for(uint8_t u8_counter = ZERO ; u8_counter < BUFFER_SIZE ; u8_counter++)
-		buffer[u8_counter] = u8_counter;	
-	buffer[1] = 10;
-	gstr_BCM_Task_cfg_t bcm_task_cfg = {buffer,&lock1,bcm_notifier,
-										2,BCM_SPI_CHANAL,BCM_SENDER};
-	BCM_setup(&bcm_task_cfg);
-	
-	while(1)
-	{
-	/*	SPDR = 0XFF;
-	_delay_ms(10);*/
-	BCM_TX_dispatcher();
-	}
+	//BCM_Rceiver();
+	BCM_Sender();
 	return 0 ;
 }
 #endif

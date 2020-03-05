@@ -42,7 +42,7 @@ void Uart_Init(gstr_uart_cfg_t* uart_cfg);
 */
 void UartTX_Enable();
 
-uint8_t UDRStatus(void);
+uint8_t UDR_ReadyStatus(void);
 
 #endif /* END OF __USART_H__ */
 

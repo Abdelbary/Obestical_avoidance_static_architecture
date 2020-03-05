@@ -76,7 +76,6 @@ ERROR_STATUS SPI_init(gstrSPI_spi_satus_t * spi_cfg){
 	SET_MASK(SPCR,spi_cfg->spi_opration_mod);
 	SET_MASK(SPSR,spi_cfg->spi_speed_mod);
 	spi_cbf =   (spi_cfg->spi_cbf);
-	SET_BIT(SPCR,SPE);/*ENABLE SPI*/
 
 	return u8_fun_status;
 }
@@ -98,3 +97,7 @@ ERROR_STATUS SPI_getData(uint8_t * value)
 	return u8_fun_status;
 }
 
+ERROR_STATUS spi_enable()
+{
+	SET_BIT(SPCR,SPE);
+}
